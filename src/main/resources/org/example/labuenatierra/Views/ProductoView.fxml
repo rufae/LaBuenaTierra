@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.labuenatierra.Controllers.ProductoController">
-    <ImageView fx:id="productoImage"/>
-    <!-- Menú lateral izquierdo con las imágenes pequeñas -->
+<BorderPane prefHeight="671.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.ProductoController">
+
+    <!-- Barra superior con el nombre de la empresa -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #bb7035; -fx-padding: 10;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 18px;" text="LaBuenaTierra" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+    </top>
+
+    <!-- Menú lateral izquierdo con miniaturas de imágenes del producto -->
     <left>
         <VBox spacing="10.0" style="-fx-padding: 20;">
-            <ImageView fitWidth="80" fitHeight="150" pickOnBounds="true" preserveRatio="true"/>
-            <ImageView fitWidth="80" fitHeight="150" pickOnBounds="true" preserveRatio="true"/>
-            <ImageView fitWidth="80" fitHeight="150" pickOnBounds="true" preserveRatio="true"/>
+            <ImageView fitHeight="150" fitWidth="80" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="150" fitWidth="80" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="150" fitWidth="80" pickOnBounds="true" preserveRatio="true" />
         </VBox>
     </left>
 
-    <!-- Área principal con la imagen y detalles del producto -->
+    <!-- Área principal con imagen del producto, nombre, precio y descripción -->
     <center>
         <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
-            <ImageView fitWidth="200" fitHeight="300" pickOnBounds="true" preserveRatio="true"/>
-            <Label fx:id="nombreProductoLabel" text="MALLA RUNNING TENTH MUJER" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-            <Label fx:id="precioLabel" text="32,99€" style="-fx-font-size: 16px; -fx-text-fill: green;" />
+            <ImageView fx:id="productoImage" fitHeight="400" fitWidth="300" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="nombreProductoLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Arial';" text="Nombre del Producto" />
+            <Label fx:id="precioLabel" style="-fx-font-size: 18px; -fx-text-fill: green; -fx-font-family: 'Arial';" text="32,99€" />
+            <Label maxWidth="400" style="-fx-font-size: 14px; -fx-font-family: 'Arial'; -fx-padding: 0 20;" text="Este producto es elaborado con ingredientes naturales de la más alta calidad. Perfecto para cualquier ocasión." wrapText="true" />
+
+            <!-- Campo para seleccionar la cantidad y botón de añadir al carrito, movido al centro -->
+            <VBox alignment="CENTER" spacing="10.0" style="-fx-padding: 20;">
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cantidad" />
+                <Spinner fx:id="cantidadSpinner" initialValue="1" max="99" min="1" />
+                <Button style="-fx-background-color: #bb7035; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="Añadir al carrito" />
+            </VBox>
         </VBox>
     </center>
 
-    <!-- Detalles a la derecha -->
-    <right>
-        <VBox spacing="15.0" style="-fx-padding: 20;">
-            <Label text="SELECCIONA TU TALLA" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
-            <HBox spacing="10">
-                <Button fx:id="tallaXSButton" text="XS" onAction="#seleccionarTallaXS" />
-                <Button fx:id="tallaSButton" text="S" onAction="#seleccionarTallaS" />
-                <Button fx:id="tallaMButton" text="M" onAction="#seleccionarTallaM" />
-                <Button fx:id="tallaLButton" text="L" onAction="#seleccionarTallaL" />
-                <Button fx:id="tallaXLButton" text="XL" onAction="#seleccionarTallaXL" />
-            </HBox>
-            <Button text="Añadir al carrito" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px;" />
-        </VBox>
-    </right>
 </BorderPane>
