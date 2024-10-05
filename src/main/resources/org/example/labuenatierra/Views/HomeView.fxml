@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.HomeController">
+
+    <!-- Menú lateral -->
+    <left>
+        <VBox spacing="10.0" style="-fx-background-color: #2c3e50; -fx-padding: 10;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 18px;" text="AIO" />
+            <Button fx:id="inicioBtn" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Inicio" />
+            <Button style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Plan financiero" />
+            <Button style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Fabricantes" />
+            <Button fx:id="clientesBtn" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Clientes" />
+
+            <!-- Empleados Pane -->
+            <TitledPane style="-fx-text-fill: white;" text="Empleados">
+                <content>
+                    <VBox>
+                        <Button text="Listar Empleados" />
+                        <Button text="Agregar Nuevo" />
+                    </VBox>
+                </content>
+            </TitledPane>
+            <Button fx:id="inventarioBtn" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Inventario" />
+
+            <Button style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Mi Sitio Web" />
+         <Button style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Inversores" />
+        </VBox>
+    </left>
+
+    <!-- Barra superior -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #3498db; -fx-padding: 10;">
+            <Label style="-fx-text-fill: white;" text="Administrador (admin)" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label style="-fx-text-fill: white;" text="¿Ayuda?" />
+        </HBox>
+    </top>
+
+    <!-- Área principal -->
+    <center>
+        <VBox fx:id="mainContent" alignment="CENTER" spacing="10.0" style="-fx-padding: 20;">
+            <Label text="Total Ventas del Mes" />
+            <Label text="No se encontraron registros." />
+        </VBox>
+    </center>
+
+</BorderPane>

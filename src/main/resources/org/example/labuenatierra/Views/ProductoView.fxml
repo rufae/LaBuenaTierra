@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.labuenatierra.Controllers.ProductoController">
+    <ImageView fx:id="productoImage"/>
+    <!-- Menú lateral izquierdo con las imágenes pequeñas -->
+    <left>
+        <VBox spacing="10.0" style="-fx-padding: 20;">
+            <ImageView fitWidth="80" fitHeight="150" pickOnBounds="true" preserveRatio="true"/>
+            <ImageView fitWidth="80" fitHeight="150" pickOnBounds="true" preserveRatio="true"/>
+            <ImageView fitWidth="80" fitHeight="150" pickOnBounds="true" preserveRatio="true"/>
+        </VBox>
+    </left>
+
+    <!-- Área principal con la imagen y detalles del producto -->
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
+            <ImageView fitWidth="200" fitHeight="300" pickOnBounds="true" preserveRatio="true"/>
+            <Label fx:id="nombreProductoLabel" text="MALLA RUNNING TENTH MUJER" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            <Label fx:id="precioLabel" text="32,99€" style="-fx-font-size: 16px; -fx-text-fill: green;" />
+        </VBox>
+    </center>
+
+    <!-- Detalles a la derecha -->
+    <right>
+        <VBox spacing="15.0" style="-fx-padding: 20;">
+            <Label text="SELECCIONA TU TALLA" style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+            <HBox spacing="10">
+                <Button fx:id="tallaXSButton" text="XS" onAction="#seleccionarTallaXS" />
+                <Button fx:id="tallaSButton" text="S" onAction="#seleccionarTallaS" />
+                <Button fx:id="tallaMButton" text="M" onAction="#seleccionarTallaM" />
+                <Button fx:id="tallaLButton" text="L" onAction="#seleccionarTallaL" />
+                <Button fx:id="tallaXLButton" text="XL" onAction="#seleccionarTallaXL" />
+            </HBox>
+            <Button text="Añadir al carrito" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px;" />
+        </VBox>
+    </right>
+</BorderPane>
