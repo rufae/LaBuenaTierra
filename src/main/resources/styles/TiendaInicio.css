@@ -1,0 +1,78 @@
+/* Fondo principal de la ventana */
+.backgroundcolor {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f89c56, #f1c69c);
+}
+
+/* Estilo para la barra superior */
+.h-box-top {
+    -fx-background-color: #bb7035;
+    -fx-padding: 10;
+}
+
+.h-box-top .label {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+}
+
+.h-box-top .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.h-box-top .textfield {
+    -fx-background-color: white;
+}
+
+/* Estilo de los productos en el GridPane */
+.grid-pane-products .v-box-product {
+    -fx-border-color: lightgray;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+.grid-pane-products .v-box-product .label-product-price {
+    -fx-text-fill: green;
+}
+
+/* Estilos generales del texto */
+.label-main-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.label-subtitle {
+    -fx-font-size: 16px;
+}
+
+.label-promotion {
+    -fx-font-size: 12px;
+    -fx-text-fill: black;
+}
+
+/* Alineación y espaciado */
+.v-box-center {
+    -fx-padding: 20;
+}
+
+.grid-pane-products {
+    -fx-padding: 10;
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+    -fx-alignment: center; /* Centra el gridpane */
+}
+
+.v-box-product {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.label-producto-nombre {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.label-producto-precio {
+    -fx-font-size: 14px;
+    -fx-text-fill: green; /* Color de texto */
+}

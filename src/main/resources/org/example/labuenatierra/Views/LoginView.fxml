@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.LoginController">
+<BorderPane prefHeight="400.0" stylesheets="@../../../../styles/Login.css" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.LoginController">
 
     <!-- Área principal -->
     <center>
-        <VBox alignment="CENTER" spacing="20.0" stylesheets="@app.css">
+        <VBox alignment="CENTER" spacing="20.0">
 
             <!-- Título del formulario -->
             <Label fx:id="loginTitle" text="Inicio de Sesión" />
@@ -46,8 +46,9 @@
 
     <!-- Pie de página -->
     <bottom>
-        <HBox alignment="CENTER">
-            <Label fx:id="footer" text="© 2024 LaBuenaTierra. Todos los derechos reservados." />
+        <!-- HBox que ocupa todo el ancho del BorderPane -->
+        <HBox alignment="CENTER" style="-fx-background-color: #6b2f00;" prefHeight="40">
+            <Label fx:id="footer" text="© 2024 LaBuenaTierra. Todos los derechos reservados." style="-fx-text-fill: white;" />
         </HBox>
     </bottom>
 </BorderPane>
