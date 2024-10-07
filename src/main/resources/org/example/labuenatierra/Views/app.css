@@ -1,0 +1,62 @@
+/* Fondo de la ventana principal */
+.root {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f9f9f9, #b5b5b5);
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4);
+}
+
+/* Estilos generales de texto */
+.label {
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 16px;
+    -fx-text-fill: #666;
+}
+
+/* Título principal */
+#loginTitle {
+    -fx-font-family: 'Arial Rounded MT Bold';
+    -fx-font-size: 28px;
+    -fx-text-fill: #333;
+}
+
+/* Campos de texto */
+.text-field, .password-field, .choice-box {
+    -fx-background-color: #f0f0f0;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 14px;
+}
+
+/* Botón de inicio de sesión */
+.button {
+    -fx-background-color: #6b2f00;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Segoe UI Semibold';
+    -fx-background-radius: 5;
+    -fx-padding: 10 20;
+}
+
+.button:hover {
+    -fx-background-color: #8c3d00;
+}
+
+/* Efecto de sombra en el botón */
+.button .effect {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4);
+}
+
+/* Mensaje de error */
+#errorMessage {
+    -fx-text-fill: red;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 14px;
+}
+
+/* Pie de página */
+#footer {
+    -fx-background-color: #6b2f00;
+    -fx-text-fill: white;
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 12px;
+    -fx-padding: 10;
+}

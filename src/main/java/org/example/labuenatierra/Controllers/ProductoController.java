@@ -37,7 +37,7 @@ public class ProductoController {
     @FXML
     private void initialize() {
         // Cargar la imagen desde el classpath
-        InputStream imageStream = getClass().getResourceAsStream("/images/carrito.png");
+        InputStream imageStream = getClass().getResourceAsStream("/images/palmerasdehuevo.jpg");
         if (imageStream != null) {
             productoImage.setImage(new Image(imageStream));
         } else {
