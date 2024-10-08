@@ -4,11 +4,21 @@ public class Producto {
     private String nombre;
     private double precio;
     private String imagen;
+    private String descripcion;
 
-    public Producto(String nombre, double precio, String imagen) {
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Producto(String nombre, double precio, String imagen, String descripcion) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
+        this.descripcion = descripcion;
     }
 
     public String getImagen() {

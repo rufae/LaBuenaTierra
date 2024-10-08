@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0"  xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.HomeController">
+<BorderPane prefHeight="600.0" prefWidth="800.0"  xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.AdministradorController">
 
     <!-- Menú lateral -->
     <left>
@@ -45,7 +45,7 @@
 
     <!-- Área principal -->
     <center>
-        <VBox fx:id="mainContent" alignment="CENTER" spacing="10.0" style="-fx-padding: 20;" stylesheets="@prueba.css">
+        <VBox fx:id="mainContent" alignment="CENTER" spacing="10.0" style="-fx-padding: 20;">
             <Label text="Total Ventas del Mes" />
             <Label text="No se encontraron registros." />
         </VBox>

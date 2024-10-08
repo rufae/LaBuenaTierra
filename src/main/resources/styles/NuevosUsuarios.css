@@ -1,3 +1,5 @@
+/* NuevosUsuarios.css */
+
 /* Fondo de la ventana principal */
 .root {
     -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f89c56, #f1c69c);
@@ -11,21 +13,21 @@
     -fx-text-fill: #666;
 }
 
-/* Título principal */
-#loginTitle {
+/* Título del formulario */
+#registerTitle {
     -fx-font-family: 'Arial Rounded MT Bold';
     -fx-font-size: 28px;
     -fx-text-fill: #333;
 }
 
 /* Campos de texto */
-.text-field, .password-field, .choice-box {
+.text-field, .password-field {
     -fx-background-color: #f0f0f0;
     -fx-font-family: 'Segoe UI';
     -fx-font-size: 14px;
 }
 
-/* Botón de inicio de sesión */
+/* Botón de guardar datos */
 .button {
     -fx-background-color: #6b2f00;
     -fx-text-fill: white;
@@ -39,18 +41,6 @@
     -fx-background-color: #8c3d00;
 }
 
-/* Efecto de sombra en el botón */
-.button .effect {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0, 0, 4);
-}
-
-/* Mensaje de error */
-#errorMessage {
-    -fx-text-fill: red;
-    -fx-font-family: 'Segoe UI';
-    -fx-font-size: 14px;
-}
-
 /* Pie de página */
 #footer {
     -fx-background-color: #6b2f00;
@@ -58,15 +48,4 @@
     -fx-font-family: 'Segoe UI';
     -fx-font-size: 12px;
     -fx-padding: 10;
-}
-
-#newUserLink {
-    -fx-font-size: 16px; /* Cambia el tamaño de la letra */
-    -fx-text-fill: #000000; /* Cambia el color de la letra */
-    -fx-cursor: hand; /* Cambia el cursor al pasar sobre el enlace */
-    -fx-underline: false; /* Subraya el texto */
-}
-
-#newUserLink:hover {
-    -fx-text-fill: #1abc9c; /* Cambia el color al pasar el cursor */
 }

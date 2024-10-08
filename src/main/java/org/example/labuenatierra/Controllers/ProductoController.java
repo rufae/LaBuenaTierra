@@ -6,26 +6,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.example.labuenatierra.Models.Producto;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ProductoController {
-
     @FXML
     private ImageView productoImage;
-
     @FXML
     private Label nombreProductoLabel;
-
     @FXML
     private Label precioLabel;
-
     @FXML
     private Label labelLaBuenaTierra;
+    @FXML
+    private Label descripcionProductoLabel;
+    @FXML
+    private Spinner<Integer> cantidadSpinner;
+    private Producto productoSeleccionado;
 
     @FXML
     private void initialize() {
@@ -36,6 +40,19 @@ public class ProductoController {
         } else {
             System.out.println("Imagen no encontrada en la ruta especificada.");
         }
+    }
+
+    public void setProductoSeleccionado(Producto producto) {
+        this.productoSeleccionado = producto;
+
+        // Actualizar los campos con la información del producto seleccionado
+        nombreProductoLabel.setText(producto.getNombre());
+        precioLabel.setText(String.format("%.2f €", producto.getPrecio()));
+        descripcionProductoLabel.setText(producto.getDescripcion());
+
+        // Cargar la imagen del producto
+        Image imagenProducto = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/" + producto.getImagen())));
+        productoImage.setImage(imagenProducto);
     }
 
     @FXML
@@ -59,9 +76,5 @@ public class ProductoController {
             e.printStackTrace();
         }
     }
-
-
-
-
 
 }

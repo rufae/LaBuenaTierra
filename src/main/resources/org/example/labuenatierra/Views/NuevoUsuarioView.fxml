@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="400.0" stylesheets="@../../../../styles/NuevosUsuarios.css" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.NuevoUsuarioController">
+
+    <!-- Área principal -->
+    <center>
+        <VBox alignment="CENTER" spacing="20.0">
+
+            <!-- Título del formulario -->
+            <Label fx:id="registerTitle" text="Registro de Nuevo Usuario" />
+
+            <!-- Nombre de usuario -->
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="Nombre de usuario:" />
+                <TextField fx:id="usernameField" promptText="Nombre de usuario" />
+            </HBox>
+
+            <!-- Teléfono -->
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="Teléfono:" />
+                <TextField fx:id="phoneField" promptText="Teléfono" />
+            </HBox>
+
+            <!-- Correo Electrónico -->
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="Correo Electrónico:" />
+                <TextField fx:id="emailField" promptText="Correo Electrónico" />
+            </HBox>
+
+            <!-- Dirección -->
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="Dirección:" />
+                <TextField fx:id="addressField" promptText="Dirección" />
+            </HBox>
+
+            <!-- Contraseña -->
+            <HBox alignment="CENTER" spacing="10.0">
+                <Label text="Contraseña:" />
+                <PasswordField fx:id="passwordField" promptText="Contraseña" />
+            </HBox>
+
+            <!-- Botón de guardar datos -->
+            <Button text="Guardar Datos" onAction="#handleSaveDataClick" />
+
+        </VBox>
+    </center>
+
+    <!-- Pie de página -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #6b2f00;" prefHeight="40">
+            <Label text="© 2024 LaBuenaTierra. Todos los derechos reservados." style="-fx-text-fill: white;" />
+        </HBox>
+    </bottom>
+</BorderPane>

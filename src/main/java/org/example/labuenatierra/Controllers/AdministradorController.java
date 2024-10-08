@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
-public class HomeController {
+public class AdministradorController {
 
     @FXML
     private VBox mainContent;

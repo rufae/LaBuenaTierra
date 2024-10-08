@@ -12,7 +12,7 @@
             <Label text="LaBuenaTierra" />
             <ChoiceBox fx:id="categoryChoiceBox" />
             <Region HBox.hgrow="ALWAYS" />
-            <TextField promptText="Buscar artículos y marcas..." />
+            <TextField fx:id="searchField" promptText="Buscar artículos y marcas..." onAction="#buscarProductosPorNombre"/>
             <Button graphicTextGap="0" text="0">
                 <graphic>
                     <ImageView fx:id="cartIcon" />

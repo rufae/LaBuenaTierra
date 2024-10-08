@@ -123,3 +123,9 @@
     -fx-shape: null;  /* Eliminar la forma de la flecha */
 }
 
+.product-label {
+    -fx-font-size: 16px; /* Ajusta el tamaño de la fuente */
+    -fx-text-alignment: CENTER; /* Alineación centrada */
+    -fx-wrap-text: true; /* Habilitar el ajuste de texto */
+    -fx-pref-width: 100px; /* Ajusta el ancho preferido según sea necesario */
+}

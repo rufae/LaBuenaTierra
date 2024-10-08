@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -30,14 +31,17 @@
                 <ChoiceBox fx:id="userTypeChoice" />
             </HBox>
 
-            <!-- Contraseña, solo visible si elige Administrador -->
+            <!-- Contraseña, siempre visible -->
             <HBox alignment="CENTER" spacing="10.0">
-                <Label fx:id="passwordLabel" text="Contraseña:" visible="false" />
-                <PasswordField fx:id="passwordField" promptText="Contraseña" visible="false" />
+                <Label fx:id="passwordLabel" text="Contraseña:" />
+                <PasswordField fx:id="passwordField" promptText="Contraseña" />
             </HBox>
 
             <!-- Botón de inicio de sesión -->
             <Button fx:id="loginBtn" text="Iniciar Sesión" />
+
+            <!-- Enlace para nuevo usuario -->
+            <Hyperlink fx:id="newUserLink" text="¡¿No eres cliente aún?! Haz click aquí!!" onAction="#handleNewUserLinkClick" />
 
             <!-- Mensaje de error si las credenciales no son correctas -->
             <Label fx:id="errorMessage" text="Usuario o contraseña incorrectos" visible="false" />
