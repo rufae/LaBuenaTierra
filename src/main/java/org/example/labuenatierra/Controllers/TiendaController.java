@@ -1,23 +1,30 @@
 package org.example.labuenatierra.Controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import org.example.labuenatierra.Models.DatabaseConnection;
 import org.example.labuenatierra.Models.Producto;
 
+import java.io.IOException;
 import java.io.InputStream;
-import javafx.scene.control.Label;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TiendaController {
 
@@ -25,6 +32,12 @@ public class TiendaController {
     private ImageView cartIcon;
     @FXML
     private GridPane gridPaneProductos;
+    @FXML
+    private ChoiceBox<String> categoryChoiceBox;
+
+    private final ObservableList<String> categorias = FXCollections.observableArrayList(
+            "Todos", "Bollería Artesanal", "Productos de Navidad", "Fritos", "Tortas Artesanas"
+    );
 
     @FXML
     private void initialize() {
@@ -36,51 +49,72 @@ public class TiendaController {
             System.out.println("Imagen no encontrada en la ruta especificada.");
         }
 
+        // Configurar ChoiceBox
+        categoryChoiceBox.setItems(categorias);
+        categoryChoiceBox.setValue("Todos"); // Valor por defecto
+
+        // Cargar productos por categoría
+        categoryChoiceBox.setOnAction(event -> cargarProductosPorCategoria(categoryChoiceBox.getValue()));
+
         // Cargar productos al inicializar
-        List<Producto> productos = loadProducts();
-        int row = 0; // Fila inicial
-        int column = 0; // Columna inicial
+        cargarProductosPorCategoria("Todos");
+    }
+
+    private void cargarProductosPorCategoria(String categoria) {
+        gridPaneProductos.getChildren().clear(); // Limpiar productos previos
+
+        List<Producto> productos = loadProducts(categoria);
+        int row = 0;
+        int column = 0;
 
         for (Producto producto : productos) {
             VBox vbox = crearProductoVBox(producto); // Crear la vista para el producto
-            gridPaneProductos.add(vbox, column, row); // Añadir el VBox al GridPane en la posición correcta
+            gridPaneProductos.add(vbox, column, row); // Añadir el VBox al GridPane
 
-            // Actualiza las columnas y filas
             column++;
-            if (column > 3) { // Cambia a la siguiente fila después de 3 productos
+            if (column > 3) { // Cambiar a la siguiente fila después de 3 productos
                 column = 0;
                 row++;
             }
         }
     }
 
-
-    private List<Producto> loadProducts() {
-
+    private List<Producto> loadProducts(String categoria) {
         List<Producto> productos = new ArrayList<>();
-        String query = "SELECT nombre, precio, imagen FROM productos"; // Asegúrate de que la consulta sea correcta
+        String query;
 
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String nombre = resultSet.getString("nombre");
-                double precio = resultSet.getDouble("precio");
-                String imagen = resultSet.getString("imagen");
-                productos.add(new Producto(nombre, precio, imagen)); // Crea un objeto Producto y lo añade a la lista
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Manejo de errores
+        if (categoria.equals("Todos")) {
+            query = "SELECT nombre, precio, imagen FROM productos";
+        } else {
+            query = "SELECT nombre, precio, imagen FROM productos WHERE categoria = ?";
         }
 
-        return productos; // Devuelve la lista de productos
+        try (PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(query)) {
+            if (!categoria.equals("Todos")) {
+                statement.setString(1, categoria);
+            }
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String nombre = resultSet.getString("nombre");
+                    double precio = resultSet.getDouble("precio");
+                    String imagen = resultSet.getString("imagen");
+                    productos.add(new Producto(nombre, precio, imagen));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productos;
     }
+
 
     // Método para crear la vista de un producto
     private VBox crearProductoVBox(Producto producto) {
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(10);
 
         // Crear la vista de la imagen del producto
         ImageView imageView = new ImageView();
@@ -94,8 +128,6 @@ public class TiendaController {
             imageView.setImage(imagenProducto);
         } else {
             System.out.println("Imagen no encontrada: " + producto.getImagen());
-            // Aquí puedes establecer una imagen por defecto
-            // imageView.setImage(new Image("ruta/a/imagen/por/defecto.png"));
         }
 
         // Crear la etiqueta del nombre del producto
@@ -109,8 +141,32 @@ public class TiendaController {
         // Añadir la imagen, el nombre y el precio al VBox
         vbox.getChildren().addAll(imageView, nombreLabel, precioLabel);
 
+        // Evento para redirigir a ProductoView.fxml al hacer clic
+        vbox.setOnMouseClicked(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/ProductoView.fxml"));
+                Parent productoView = loader.load();
+
+                // Obtener la escena y cargar la nueva vista
+                Stage stage = (Stage) vbox.getScene().getWindow();
+                Scene scene = new Scene(productoView);
+                stage.setScene(scene);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        // Efecto de zoom cuando el mouse pasa por encima
+        vbox.setOnMouseEntered(event -> vbox.setScaleX(1.1));
+        vbox.setOnMouseEntered(event -> vbox.setScaleY(1.1));
+
+        vbox.setOnMouseExited(event -> {
+            vbox.setScaleX(1.0);
+            vbox.setScaleY(1.0);
+        });
+
         return vbox;
     }
-
 }
-

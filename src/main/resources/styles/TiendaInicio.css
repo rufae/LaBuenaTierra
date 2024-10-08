@@ -76,3 +76,50 @@
     -fx-font-size: 14px;
     -fx-text-fill: green; /* Color de texto */
 }
+
+.vbox-center {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 1);
+    -fx-transition: all 0.3s ease;
+}
+
+.vbox-center:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+/* Estilo para el ChoiceBox cuando no está desplegado */
+.choice-box {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* Lista desplegable del ChoiceBox */
+.choice-box .menu-item {
+    -fx-background-color: #1a1a1a;  /* Fondo negro para la lista desplegable */
+    -fx-text-fill: white;            /* Texto blanco */
+}
+
+/* Hover sobre los elementos de la lista */
+.choice-box .menu-item:hover {
+    -fx-background-color: #f89c56;  /* Fondo naranja al hacer hover */
+    -fx-text-fill: white;
+}
+
+/* Cuando se selecciona un elemento */
+.choice-box .menu-item:selected {
+    -fx-background-color: #f89c56;  /* Fondo naranja cuando se selecciona */
+    -fx-text-fill: white;
+}
+
+/* Eliminar la flecha del dropdown */
+.choice-box .arrow {
+    -fx-background-color: transparent;
+    -fx-shape: null;  /* Eliminar la forma de la flecha */
+}
+
