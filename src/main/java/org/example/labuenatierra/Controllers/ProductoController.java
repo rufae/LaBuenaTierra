@@ -10,6 +10,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.example.labuenatierra.Models.Carrito;
 import org.example.labuenatierra.Models.Producto;
 
 import java.io.IOException;
@@ -30,6 +31,9 @@ public class ProductoController {
     @FXML
     private Spinner<Integer> cantidadSpinner;
     private Producto productoSeleccionado;
+
+    // Instancia del carrito
+    private static Carrito carrito = Carrito.getInstance();
 
     @FXML
     private void initialize() {
@@ -56,6 +60,21 @@ public class ProductoController {
     }
 
     @FXML
+    private void agregarAlCarrito() {
+        int cantidad = cantidadSpinner.getValue(); // Obtener el valor del Spinner
+
+        // Agregar el producto al carrito
+        if (productoSeleccionado != null && cantidad > 0) {
+            carrito.agregarProducto(productoSeleccionado, cantidad);
+            System.out.println(cantidad + " " + productoSeleccionado.getNombre() + " han sido añadidos al carrito.");
+            carrito.mostrarCarrito(); // Mostrar el contenido del carrito (puedes quitarlo si no lo necesitas)
+
+            // Redirigir a la vista TiendaInicioView.fxml después de añadir el producto
+            irATiendaInicio();
+        }
+    }
+
+    @FXML
     private void irATiendaInicio() {
         try {
             // Cargar la nueva vista TiendaInicioView.fxml
@@ -76,5 +95,4 @@ public class ProductoController {
             e.printStackTrace();
         }
     }
-
 }

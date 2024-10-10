@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0"  xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.AdministradorController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.AdministradorController">
 
     <!-- Menú lateral -->
     <left>
         <VBox spacing="10.0" style="-fx-background-color: #bb7035; -fx-padding: 10;">
             <Label style="-fx-text-fill: white; -fx-font-size: 18px;" text="LaBuenaTierra" />
             <Button fx:id="inicioBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Inicio" />
-            <Button style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Mi Sitio Web" />
-            <Button style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Fabricantes" />
-            <Button fx:id="clientesBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Clientes" />
+            <Button fx:id="buttonShop" onMouseClicked="#redirectShop" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Mi Sitio Web" />
+            <Button fx:id="proveedoresBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Proveedores" /> <!-- Este botón mostrará la información de proveedores -->
+            <Button fx:id="clientesBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Clientes" /> <!-- Este botón mostrará la información de clientes -->
 
             <!-- Empleados Pane -->
             <TitledPane style="-fx-text-fill: white; background-color: #dbbf34;" text="Empleados">
                 <content>
                     <VBox>
-                        <Button text="Listar Empleados" />
-                        <Button text="Agregar Nuevo" />
+                        <Button fx:id="listarEmpleadosBtn" text="Listar Empleados" onAction="#showEmpleados" />
+                        <Button text="Agregar Nuevo" onAction="#showAddEmployeeForm"/>
                     </VBox>
                 </content>
             </TitledPane>
-            <Button style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Plan financiero" />
-            <Button fx:id="inventarioBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Inventario" />
-            <Button style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Inversores" />
+            <Button fx:id="planFinancieroBtn" onMouseClicked="#handlePlanFinanciero" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Plan financiero" />
+            <Button fx:id="inventarioBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Inventario" /> <!-- Este botón mostrará la información de productos -->
         </VBox>
     </left>
 
@@ -43,7 +37,7 @@
         </HBox>
     </top>
 
-    <!-- Área principal -->
+    <!-- Área principal donde se mostrará la información -->
     <center>
         <VBox fx:id="mainContent" alignment="CENTER" spacing="10.0" style="-fx-padding: 20;">
             <Label text="Total Ventas del Mes" />

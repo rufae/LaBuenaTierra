@@ -9,15 +9,16 @@
     <!-- Barra superior -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="h-box-top">
-            <Label text="LaBuenaTierra" />
+            <Label styleClass="labelLaBuenaTierra" text="LaBuenaTierra" />
             <ChoiceBox fx:id="categoryChoiceBox" />
             <Region HBox.hgrow="ALWAYS" />
             <TextField fx:id="searchField" promptText="Buscar artículos y marcas..." onAction="#buscarProductosPorNombre"/>
-            <Button graphicTextGap="0" text="0">
+            <Button fx:id="cartButton" graphicTextGap="0" text="0">
                 <graphic>
                     <ImageView fx:id="cartIcon" />
                 </graphic>
             </Button>
+
         </HBox>
     </top>
 

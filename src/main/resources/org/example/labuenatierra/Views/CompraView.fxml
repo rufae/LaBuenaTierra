@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane stylesheets="@../../../../styles/Compra.css" prefHeight="570.0" prefWidth="560.0" styleClass="border-pane" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.CompraController">
+    <!-- Barra superior con el nombre de la empresa -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="h-box-top">
+            <Label fx:id="labelLaBuenaTierra" styleClass="labelLaBuenaTierra" text="LaBuenaTierra" onMouseClicked="#iraTiendaInicio" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+    </top>
+
+    <!-- Área principal con resumen de compra -->
+    <center>
+        <VBox fx:id="productosVBox" alignment="CENTER" spacing="20.0" styleClass="v-box-center">
+            <Label text="Resumen de Compra" styleClass="titulo-compra" alignment="CENTER" />
+            <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="scroll-pane">
+                <VBox fx:id="productosList" spacing="15.0" alignment="CENTER">
+                    <!-- Los productos se agregarán dinámicamente desde el controlador -->
+                    <HBox alignment="CENTER" spacing="10.0" styleClass="producto-box">
+                        <ImageView fx:id="productoImage" fitHeight="100.0" fitWidth="100.0" />
+                        <VBox alignment="CENTER_LEFT" spacing="5.0">
+                            <Label fx:id="nombreProductoLabel" styleClass="nombreProductoLabel" text="Nombre del Producto" />
+                            <Label fx:id="precioLabel" styleClass="precioLabel" text="32,99€" />
+                            <Label fx:id="descripcionProductoLabel" styleClass="label-description" text="Descripción del producto" wrapText="true" textAlignment="CENTER" />
+                        </VBox>
+                    </HBox>
+                    <!-- Repetir HBox por cada producto -->
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+    <!-- Área inferior con el total y botón para aceptar compra -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="20.0" styleClass="h-box-bottom">
+            <Label fx:id="totalLabel" text="Total: 0.00 €" styleClass="total-label" />
+            <Button fx:id="aceptarButton" text="Aceptar Compra" onAction="#aceptarCompra" styleClass="button-aceptar" />
+            <Label fx:id="mensajeCompraLabel" text="" styleClass="mensaje-compra" visible="false" />
+        </HBox>
+    </bottom>
+</BorderPane>

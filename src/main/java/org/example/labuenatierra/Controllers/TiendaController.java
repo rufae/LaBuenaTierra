@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -32,6 +33,8 @@ public class TiendaController {
     @FXML
     private ImageView cartIcon;
     @FXML
+    private Button cartButton;  // Nuevo botón para el carrito
+    @FXML
     private GridPane gridPaneProductos;
     @FXML
     private ChoiceBox<String> categoryChoiceBox;
@@ -52,6 +55,11 @@ public class TiendaController {
             System.out.println("Imagen no encontrada en la ruta especificada.");
         }
 
+        // Hacer el botón del carrito pulsable
+        cartButton.setOnMouseClicked(event -> {
+            irACompraView();
+        });
+
         // Configurar ChoiceBox
         categoryChoiceBox.setItems(categorias);
         categoryChoiceBox.setValue("Todos"); // Valor por defecto
@@ -61,6 +69,20 @@ public class TiendaController {
 
         // Cargar productos al inicializar
         cargarProductosPorCategoria("Todos");
+    }
+
+    private void irACompraView() {
+        try {
+            // Cambia la vista a CompraView.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/CompraView.fxml"));
+            Parent compraView = loader.load();
+            Stage stage = (Stage) cartButton.getScene().getWindow();  // Cambiado a cartButton
+            Scene scene = new Scene(compraView); // Asegúrate de crear una nueva escena
+            stage.setScene(scene);
+            stage.show();  // Muestra la nueva vista
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void cargarProductosPorCategoria(String categoria) {

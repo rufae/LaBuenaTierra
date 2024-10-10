@@ -30,6 +30,7 @@ public class LoginController {
     private Button loginBtn;
     @FXML
     private Label errorMessage;
+    private static int idCliente;
 
     @FXML
     public void initialize() {
@@ -105,8 +106,7 @@ public class LoginController {
 
     // Método para validar credenciales de cliente
     private boolean validateClientCredentials(String username, String password) {
-        // Conectar a la base de datos y verificar las credenciales del cliente
-        String query = "SELECT * FROM clientes WHERE nombre = ? AND contraseña = ?";
+        String query = "SELECT id_cliente FROM clientes WHERE nombre = ? AND contraseña = ?";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -114,11 +114,21 @@ public class LoginController {
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            return resultSet.next(); // Si hay algún resultado, las credenciales son correctas
+            // Verificar si se encontró el cliente
+            if (resultSet.next()) {
+                idCliente = resultSet.getInt("id_cliente"); // Almacenar el ID del cliente
+                return true; // Credenciales correctas
+            }
+            return false; // Credenciales incorrectas
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // Método para obtener el ID del cliente
+    public static int getIdCliente() {
+        return idCliente; // Retornar el ID del cliente
     }
 
     @FXML

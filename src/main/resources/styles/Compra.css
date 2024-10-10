@@ -1,0 +1,82 @@
+/* Fondo del BorderPane */
+.border-pane {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f89c56, #f1c69c);
+}
+
+/* Barra superior */
+.h-box-top {
+    -fx-background-color: #bb7035;
+    -fx-padding: 10;
+    -fx-border-radius: 10;
+}
+
+/* Estilo del VBox del centro */
+.v-box-center {
+    -fx-padding: 20;
+}
+
+/* Estilo del Label de Precio Total */
+.precioLabel {
+    -fx-font-size: 18px;
+    -fx-text-fill: green;
+    -fx-font-family: 'Arial';
+}
+
+/* Estilo del Label "Resumen de Compra" */
+.titulo-compra {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+/* Estilo del Label de Productos Seleccionados */
+.label-description {
+    -fx-text-fill: #666666; /* Color de texto */
+    -fx-font-size: 14px;
+}
+
+/* Estilo del HBox de cada producto */
+.producto-box {
+    -fx-background-color: #ffffff; /* Fondo blanco para los productos */
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 1); /* Sombra sutil */
+}
+
+/* Área inferior con el total y botón para aceptar compra */
+.h-box-bottom {
+    -fx-padding: 15;
+}
+
+/* Botón de "Aceptar Compra" */
+.button-aceptar {
+    -fx-background-color: #bb7035;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20; /* Añadir padding para hacer el botón más grande */
+    -fx-background-radius: 5; /* Bordes redondeados */
+    -fx-border-radius: 5;
+}
+
+/* Estilo del Label Total */
+.total-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Color de texto */
+}
+.labelLaBuenaTierra {
+    -fx-text-fill: white; /* Color del texto */
+    -fx-font-size: 28px; /* Tamaño de la fuente */
+    -fx-font-weight: bold; /* Grosor de la fuente */
+    -fx-font-family: 'Arial'; /* Fuente utilizada */
+    -fx-padding: 10; /* Espaciado interno */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Sombra sutil */
+    -fx-cursor: hand; /* Cambiar el cursor al pasar sobre el texto */
+}
+
+/* Efecto hover para el Label */
+.labelLaBuenaTierra:hover {
+    -fx-text-fill: #f1c69c; /* Color de texto al pasar el ratón */
+}

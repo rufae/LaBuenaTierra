@@ -129,3 +129,17 @@
     -fx-wrap-text: true; /* Habilitar el ajuste de texto */
     -fx-pref-width: 100px; /* Ajusta el ancho preferido según sea necesario */
 }
+.labelLaBuenaTierra {
+    -fx-text-fill: white; /* Color del texto */
+    -fx-font-size: 28px; /* Tamaño de la fuente */
+    -fx-font-weight: bold; /* Grosor de la fuente */
+    -fx-font-family: 'Arial'; /* Fuente utilizada */
+    -fx-padding: 10; /* Espaciado interno */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Sombra sutil */
+    -fx-cursor: hand; /* Cambiar el cursor al pasar sobre el texto */
+}
+
+/* Efecto hover para el Label */
+.labelLaBuenaTierra:hover {
+    -fx-text-fill: #f1c69c; /* Color de texto al pasar el ratón */
+}

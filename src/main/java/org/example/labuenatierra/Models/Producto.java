@@ -49,5 +49,6 @@ public class Producto {
     public String toString() {
         return nombre + " - " + precio + "€";
     }
+
 }
 
