@@ -104,7 +104,6 @@ public class CompraController {
                 System.err.println("Error cargando la imagen del producto: " + imagenPath);
             }
 
-
             // Crear un VBox para los detalles del producto
             VBox detallesVBox = new VBox();
             detallesVBox.setSpacing(5.0);
@@ -115,8 +114,48 @@ public class CompraController {
             descripcionLabel.setWrapText(true); // Habilitar el ajuste de texto
 
             detallesVBox.getChildren().addAll(nombreLabel, precioLabel, descripcionLabel);
-            productoBox.getChildren().addAll(productoImage, detallesVBox);
+
+            // Botones para modificar la cantidad del producto
+            HBox cantidadBox = new HBox();
+            cantidadBox.setSpacing(5.0);
+
+            // Botón para disminuir la cantidad
+            Button disminuirButton = new Button("-");
+            disminuirButton.getStyleClass().add("boton-cantidad"); // Añadir estilo
+            disminuirButton.setOnAction(event -> {
+                if (cantidad > 1) {
+                    carrito.disminuirCantidad(producto); // Implementa este método en tu clase Carrito
+                    mostrarProductosEnCarrito(); // Refrescar la vista
+                } else {
+                    carrito.eliminarProducto(producto); // Método para eliminar el producto del carrito
+                    mostrarProductosEnCarrito(); // Refrescar la vista
+                }
+            });
+
+            // Label para mostrar la cantidad actual
+            Label cantidadLabel = new Label(String.valueOf(cantidad));
+            cantidadLabel.getStyleClass().add("label-cantidad"); // Asegúrate de que esta línea esté presente
+
+            // Botón para aumentar la cantidad
+            Button aumentarButton = new Button("+");
+            aumentarButton.getStyleClass().add("boton-cantidad"); // Añadir estilo
+            aumentarButton.setOnAction(event -> {
+                carrito.aumentarCantidad(producto); // Implementa este método en tu clase Carrito
+                mostrarProductosEnCarrito(); // Refrescar la vista
+            });
+
+            // Botón para eliminar el producto
+            Button eliminarButton = new Button("Eliminar");
+            eliminarButton.getStyleClass().add("boton-eliminar"); // Añadir estilo
+            eliminarButton.setOnAction(event -> {
+                carrito.eliminarProducto(producto); // Método para eliminar el producto del carrito
+                mostrarProductosEnCarrito(); // Refrescar la vista
+            });
+
+            cantidadBox.getChildren().addAll(disminuirButton, cantidadLabel, aumentarButton, eliminarButton);
+            productoBox.getChildren().addAll(productoImage, detallesVBox, cantidadBox);
             productosVBox.getChildren().add(productoBox); // Agregar el HBox al VBox
+
 
             // Sumar al total
             total += producto.getPrecio() * cantidad;
@@ -125,6 +164,7 @@ public class CompraController {
         // Mostrar el total en el Label
         totalLabel.setText("Total: " + String.format("%.2f €", total));
     }
+
 
     private void actualizarEstadoBotonAceptar() {
         // Habilitar o deshabilitar el botón según el contenido del carrito

@@ -8,7 +8,7 @@ public class DatabaseConnection {
     // Definir las constantes URL, USER y PASSWORD
     private static final String URL = "jdbc:mysql://localhost:3306/LABUENATIERRA"; // Cambia el nombre de tu base de datos si es necesario
     private static final String USER = "root"; // Cambia por tu usuario de MySQL
-    private static final String PASSWORD = "dam2223"; // Cambia por tu contraseña de MySQL
+    private static final String PASSWORD = "root"; // Cambia por tu contraseña de MySQL
 
     private static Connection connection = null;
 

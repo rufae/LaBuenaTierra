@@ -45,5 +45,20 @@ public class Carrito {
     public void limpiarCarrito() {
         productos.clear(); // Limpia todos los productos del carrito
     }
-}
 
+    public void aumentarCantidad(Producto producto) {
+        if (productos.containsKey(producto)) {
+            productos.put(producto, productos.get(producto) + 1);
+        }
+    }
+
+    public void disminuirCantidad(Producto producto) {
+        if (productos.containsKey(producto) && productos.get(producto) > 1) {
+            productos.put(producto, productos.get(producto) - 1);
+        }
+    }
+
+    public void eliminarProducto(Producto producto) {
+        productos.remove(producto);
+    }
+}
