@@ -46,6 +46,7 @@ public class LoginController {
                 e.printStackTrace();
             }
         });
+
     }
 
     private void handleLogin(ActionEvent event) throws IOException {
@@ -77,6 +78,8 @@ public class LoginController {
 
                 window.setScene(adminScene);
                 window.show();
+
+                Session.setAdmin(true);
 
                 System.out.println("Iniciando sesión como Administrador...");
                 errorMessage.setVisible(false);

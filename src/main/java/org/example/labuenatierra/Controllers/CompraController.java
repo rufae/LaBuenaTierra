@@ -35,9 +35,6 @@ public class CompraController {
     public Label mensajeCompraLabel;
 
     @FXML
-    private ImageView homeIcon;
-
-    @FXML
     private VBox productosVBox; // VBox donde se mostrarán los productos
     @FXML
     private Label totalLabel; // Label para mostrar el total de la compra
@@ -47,30 +44,23 @@ public class CompraController {
 
     @FXML
     private void initialize() {
+
+        // Deshabilitar los botones si es administrador
+        if (Session.isAdmin()) {
+            aceptarButton.setDisable(true);
+        }
+
         mostrarProductosEnCarrito();
         actualizarEstadoBotonAceptar(); // Verificar el estado del botón al inicializar
     }
 
     @FXML
     private void iraTiendaInicio() {
-        try {
-            // Cargar la nueva vista TiendaInicioView.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/TiendaInicioView.fxml"));
-            Parent tiendaInicioView = loader.load();
+        Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow();
+        NavigationUtil.cambiarVista("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
 
-            // Obtener el Stage desde el evento de clic en lugar del label
-            Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow(); // Esto puede causar NullPointerException si labelLaBuenaTierra no está en la escena.
-
-            // Cambiar la raíz de la escena
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(tiendaInicioView);
-
-            // Ajustar el tamaño de la ventana
-            stage.sizeToScene(); // Ajustar al tamaño de la nueva escena
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Al cambiar a AdministradorView.fxml
+        stage.setTitle("TiendaInicioView");
     }
 
     private void mostrarProductosEnCarrito() {

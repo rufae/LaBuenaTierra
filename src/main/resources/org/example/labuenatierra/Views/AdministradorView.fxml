@@ -25,6 +25,7 @@
             </TitledPane>
             <Button fx:id="planFinancieroBtn" onMouseClicked="#handlePlanFinanciero" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Plan financiero" />
             <Button fx:id="inventarioBtn" style="-fx-background-color: #dbbf34; -fx-text-fill: white;" text="Inventario" /> <!-- Este botón mostrará la información de productos -->
+            <Button fx:id="logoutButton" style="-fx-background-color: #d50d0d; -fx-text-fill: white;" text="Cerrar Sesión" onAction="#handleLogout"/>
         </VBox>
     </left>
 

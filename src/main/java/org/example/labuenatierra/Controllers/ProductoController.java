@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.Objects;
 
 public class ProductoController {
+    public Button buttonAgregar;
     @FXML
     private ImageView productoImage;
     @FXML
@@ -37,6 +38,12 @@ public class ProductoController {
 
     @FXML
     private void initialize() {
+
+        // Deshabilitar los botones si es administrador
+        if (Session.isAdmin()) {
+            buttonAgregar.setDisable(true);
+        }
+
         // Cargar la imagen desde el classpath
         InputStream imageStream = getClass().getResourceAsStream("/images/palmerasdehuevo.jpg");
         if (imageStream != null) {
@@ -76,23 +83,7 @@ public class ProductoController {
 
     @FXML
     private void irATiendaInicio() {
-        try {
-            // Cargar la nueva vista TiendaInicioView.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/TiendaInicioView.fxml"));
-            Parent tiendaInicioView = loader.load();
-
-            // Obtener el Stage desde el evento de clic en lugar del label
-            Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow(); // Esto puede causar NullPointerException si labelLaBuenaTierra no está en la escena.
-
-            // Cambiar la raíz de la escena
-            Scene currentScene = stage.getScene();
-            currentScene.setRoot(tiendaInicioView);
-
-            // Ajustar el tamaño de la ventana
-            stage.sizeToScene(); // Ajustar al tamaño de la nueva escena
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow();
+        NavigationUtil.cambiarVista("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
     }
 }

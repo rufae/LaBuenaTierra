@@ -2,8 +2,10 @@ package org.example.labuenatierra.Controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,6 +32,8 @@ import javafx.geometry.Pos;
 
 public class TiendaController {
 
+    public Label labelLaBuenaTierra;
+    public Button logoutButton;
     @FXML
     private ImageView cartIcon;
     @FXML
@@ -69,6 +73,40 @@ public class TiendaController {
 
         // Cargar productos al inicializar
         cargarProductosPorCategoria("Todos");
+    }
+
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        try {
+            // Cargar la vista de Login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
+            Parent loginView = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Cambiar a la escena de Login
+            Scene loginScene = new Scene(loginView);
+            stage.setScene(loginScene);
+            stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+            stage.show();
+
+            // Limpiar la sesión actual
+            Session.logout();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void iraTiendaInicio() {
+        Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow();
+
+        // Al cambiar a AdministradorView.fxml
+        stage.setTitle("TiendaInicioView");
+
+        NavigationUtil.cambiarVista("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
+
     }
 
     private void irACompraView() {

@@ -1,8 +1,10 @@
 package org.example.labuenatierra.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +22,8 @@ import org.example.labuenatierra.Models.Empleado;
 
 public class AdministradorController {
 
+    public Button logoutButton;
+    public Button planFinancieroBtn;
     @FXML
     private VBox mainContent;
 
@@ -350,6 +354,29 @@ public class AdministradorController {
     }
 
     @FXML
+    private void handleLogout(ActionEvent event) {
+        try {
+            // Cargar la vista de Login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
+            Parent loginView = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Cambiar a la escena de Login
+            Scene loginScene = new Scene(loginView);
+            stage.setScene(loginScene);
+            stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+            stage.show();
+
+            // Limpiar la sesión actual
+            Session.logout();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void redirectShop() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/TiendaInicioView.fxml"));
         Parent tiendaInicioView = fxmlLoader.load();
@@ -357,12 +384,16 @@ public class AdministradorController {
         // Obtener el Stage desde el evento de clic en lugar del label
         Stage stage = (Stage) buttonShop.getScene().getWindow();
 
+        // Al cambiar a AdministradorView.fxml
+        stage.setTitle("AdministradorView");
+
         // Cambiar la raíz de la escena
         Scene currentScene = stage.getScene();
         currentScene.setRoot(tiendaInicioView);
 
         // Ajustar el tamaño de la ventana
         stage.sizeToScene(); // Ajustar al tamaño de la nueva escena
+
     }
 
     // Método para mostrar información de empleados
