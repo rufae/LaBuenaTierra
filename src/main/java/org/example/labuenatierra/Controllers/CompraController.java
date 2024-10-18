@@ -2,21 +2,16 @@ package org.example.labuenatierra.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.labuenatierra.Models.Carrito;
 import org.example.labuenatierra.Models.DatabaseConnection;
-import org.example.labuenatierra.Models.Producto;
+import org.example.labuenatierra.Models.Productos;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -70,11 +65,11 @@ public class CompraController {
         double total = 0.0; // Inicializa el total
 
         // Obtener los productos del carrito
-        Map<Producto, Integer> productos = carrito.getProductos();
+        Map<Productos, Integer> productos = carrito.getProductos();
 
         // Iterar sobre los productos y mostrarlos en la interfaz
-        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
-            Producto producto = entry.getKey();
+        for (Map.Entry<Productos, Integer> entry : productos.entrySet()) {
+            Productos producto = entry.getKey();
             int cantidad = entry.getValue();
 
             // Crear un HBox para cada producto

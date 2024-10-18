@@ -29,6 +29,7 @@
 
 /* Botón de guardar datos */
 .button {
+    -fx-end-margin: 20px;
     -fx-background-color: #6b2f00;
     -fx-text-fill: white;
     -fx-font-size: 16px;
@@ -48,4 +49,15 @@
     -fx-font-family: 'Segoe UI';
     -fx-font-size: 12px;
     -fx-padding: 10;
+}
+.backButton{
+    -fx-background-color: #9c4819;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-family: 'Segoe UI Semibold';
+    -fx-background-radius: 5;
+    -fx-padding: 10 20;
+}
+.button:hover {
+    -fx-background-color: #8c3d00;
 }

@@ -69,7 +69,6 @@ public class Empleado {
         this.puesto = puesto;
     }
 
-    // Método toString
     @Override
     public String toString() {
         return "Empleado{" +

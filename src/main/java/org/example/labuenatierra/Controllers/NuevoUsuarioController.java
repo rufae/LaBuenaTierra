@@ -29,6 +29,30 @@ public class NuevoUsuarioController {
     @FXML
     private PasswordField passwordField;
 
+
+    @FXML
+    private void handleBackToLoginClick(ActionEvent event) {
+        try {
+            // Cargar la vista de Login
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
+            Parent loginView = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Cambiar a la escena de Login
+            Scene loginScene = new Scene(loginView);
+            stage.setScene(loginScene);
+            stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+            stage.show();
+
+            // Limpiar la sesión actual
+            Session.logout();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void handleSaveDataClick(ActionEvent event) {
         String username = usernameField.getText();

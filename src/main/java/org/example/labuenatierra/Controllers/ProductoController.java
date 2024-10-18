@@ -1,9 +1,6 @@
 package org.example.labuenatierra.Controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -11,9 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.example.labuenatierra.Models.Carrito;
-import org.example.labuenatierra.Models.Producto;
+import org.example.labuenatierra.Models.Productos;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
@@ -31,7 +27,7 @@ public class ProductoController {
     private Label descripcionProductoLabel;
     @FXML
     private Spinner<Integer> cantidadSpinner;
-    private Producto productoSeleccionado;
+    private Productos productoSeleccionado;
 
     // Instancia del carrito
     private static Carrito carrito = Carrito.getInstance();
@@ -53,7 +49,7 @@ public class ProductoController {
         }
     }
 
-    public void setProductoSeleccionado(Producto producto) {
+    public void setProductoSeleccionado(Productos producto) {
         this.productoSeleccionado = producto;
 
         // Actualizar los campos con la información del producto seleccionado

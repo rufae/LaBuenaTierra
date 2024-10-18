@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Carrito {
     private static Carrito instance;
-    private final Map<Producto, Integer> productos;
+    private final Map<Productos, Integer> productos;
 
     private Carrito() {
         this.productos = new HashMap<>();
@@ -18,24 +18,24 @@ public class Carrito {
         return instance;
     }
 
-    public void agregarProducto(Producto producto, int cantidad) {
+    public void agregarProducto(Productos producto, int cantidad) {
         productos.put(producto, productos.getOrDefault(producto, 0) + cantidad);
     }
 
-    public Map<Producto, Integer> getProductos() {
+    public Map<Productos, Integer> getProductos() {
         return productos;
     }
 
     public void mostrarCarrito() {
-        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+        for (Map.Entry<Productos, Integer> entry : productos.entrySet()) {
             System.out.println("Producto: " + entry.getKey().getNombre() + ", Cantidad: " + entry.getValue());
         }
     }
 
     public double getTotal() {
         double total = 0.0;
-        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
-            Producto producto = entry.getKey();
+        for (Map.Entry<Productos, Integer> entry : productos.entrySet()) {
+            Productos producto = entry.getKey();
             int cantidad = entry.getValue();
             total += producto.getPrecio() * cantidad;
         }
@@ -46,19 +46,19 @@ public class Carrito {
         productos.clear(); // Limpia todos los productos del carrito
     }
 
-    public void aumentarCantidad(Producto producto) {
+    public void aumentarCantidad(Productos producto) {
         if (productos.containsKey(producto)) {
             productos.put(producto, productos.get(producto) + 1);
         }
     }
 
-    public void disminuirCantidad(Producto producto) {
+    public void disminuirCantidad(Productos producto) {
         if (productos.containsKey(producto) && productos.get(producto) > 1) {
             productos.put(producto, productos.get(producto) - 1);
         }
     }
 
-    public void eliminarProducto(Producto producto) {
+    public void eliminarProducto(Productos producto) {
         productos.remove(producto);
     }
 }

@@ -18,7 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.labuenatierra.Models.DatabaseConnection;
-import org.example.labuenatierra.Models.Producto;
+import org.example.labuenatierra.Models.Productos;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,11 +126,11 @@ public class TiendaController {
     private void cargarProductosPorCategoria(String categoria) {
         gridPaneProductos.getChildren().clear(); // Limpiar productos previos
 
-        List<Producto> productos = loadProducts(categoria);
+        List<Productos> productos = loadProducts(categoria);
         int row = 0;
         int column = 0;
 
-        for (Producto producto : productos) {
+        for (Productos producto : productos) {
             VBox vbox = crearProductoVBox(producto); // Crear la vista para el producto
             gridPaneProductos.add(vbox, column, row); // Añadir el VBox al GridPane
 
@@ -142,8 +142,8 @@ public class TiendaController {
         }
     }
 
-    private List<Producto> loadProducts(String categoria) {
-        List<Producto> productos = new ArrayList<>();
+    private List<Productos> loadProducts(String categoria) {
+        List<Productos> productos = new ArrayList<>();
         String query;
 
         if (categoria.equals("Todos")) {
@@ -163,7 +163,7 @@ public class TiendaController {
                     double precio = resultSet.getDouble("precio");
                     String imagen = resultSet.getString("imagen");
                     String descripcion = resultSet.getString("descripcion");
-                    productos.add(new Producto(nombre, precio, imagen, descripcion));
+                    productos.add(new Productos(nombre, precio, imagen, descripcion));
                 }
             }
         } catch (SQLException e) {
@@ -175,7 +175,7 @@ public class TiendaController {
 
 
     // Método para crear la vista de un producto
-    private VBox crearProductoVBox(Producto producto) {
+    private VBox crearProductoVBox(Productos producto) {
         VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER); // Centrar el contenido
@@ -241,8 +241,8 @@ public class TiendaController {
     }
 
 
-    private List<Producto> loadProductsByName(String nombre) {
-        List<Producto> productos = new ArrayList<>();
+    private List<Productos> loadProductsByName(String nombre) {
+        List<Productos> productos = new ArrayList<>();
         String query = "SELECT nombre, precio, imagen, descripcion FROM productos WHERE LOWER(nombre) LIKE LOWER(?)";
 
         try (PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(query)) {
@@ -254,7 +254,7 @@ public class TiendaController {
                     double precio = resultSet.getDouble("precio");
                     String imagen = resultSet.getString("imagen");
                     String descripcion = resultSet.getString("descripcion");
-                    productos.add(new Producto(nombreProducto, precio, imagen, descripcion));
+                    productos.add(new Productos(nombreProducto, precio, imagen, descripcion));
                 }
             }
         } catch (SQLException e) {
@@ -267,11 +267,11 @@ public class TiendaController {
     private void cargarProductosPorNombre(String nombre) {
         gridPaneProductos.getChildren().clear(); // Limpiar productos previos
 
-        List<Producto> productos = loadProductsByName(nombre);
+        List<Productos> productos = loadProductsByName(nombre);
         int row = 0;
         int column = 0;
 
-        for (Producto producto : productos) {
+        for (Productos producto : productos) {
             VBox vbox = crearProductoVBox(producto); // Crear la vista para el producto
             gridPaneProductos.add(vbox, column, row); // Añadir el VBox al GridPane
 

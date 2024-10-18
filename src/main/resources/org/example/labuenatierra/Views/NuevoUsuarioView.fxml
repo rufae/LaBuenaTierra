@@ -14,6 +14,13 @@
     <center>
         <VBox alignment="CENTER" spacing="20.0">
 
+            <!-- HBox para alinear el botón a la izquierda -->
+            <Label text=" "/>
+            <HBox alignment="BASELINE_LEFT">
+                <Label text="          "/>
+                <Button styleClass="backButton" text="Volver a Login" onAction="#handleBackToLoginClick" />
+            </HBox>
+
             <!-- Título del formulario -->
             <Label fx:id="registerTitle" text="Registro de Nuevo Usuario" />
 
@@ -49,7 +56,7 @@
 
             <!-- Botón de guardar datos -->
             <Button text="Guardar Datos" onAction="#handleSaveDataClick" />
-
+            <Label text=" "/>
         </VBox>
     </center>
 

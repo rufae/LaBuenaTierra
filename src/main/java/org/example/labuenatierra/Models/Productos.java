@@ -1,12 +1,12 @@
 package org.example.labuenatierra.Models;
 
-public class Producto {
+public class Productos {
     private String nombre;
     private double precio;
     private String imagen;
     private String descripcion;
 
-    public Producto(String nombre, double precio, String imagen, String descripcion) {
+    public Productos(String nombre, double precio, String imagen, String descripcion) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
