@@ -4,21 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
 
 import org.example.labuenatierra.Models.DatabaseConnection; // Importa tu clase de conexión
-import org.example.labuenatierra.Models.Empleado;
 
 public class AdministradorController {
 
@@ -73,6 +71,7 @@ public class AdministradorController {
         listarEmpleadosBtn.setOnAction(event -> showEmpleados());
         inicioBtn.setOnAction(event -> showInicio());
 
+        showInicio();
     }
 
     @FXML
@@ -99,12 +98,24 @@ public class AdministradorController {
             finanzasContainer.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
             while (finanzasResultSet.next()) {
+                int finanzaId = finanzasResultSet.getInt("id_finanza"); // Suponiendo que el ID es "id_finanza"
                 String tipo = finanzasResultSet.getString("tipo");
                 double monto = finanzasResultSet.getDouble("monto");
                 String fecha = finanzasResultSet.getDate("fecha").toString();
                 String descripcion = finanzasResultSet.getString("descripcion");
+
+                // Crear un contenedor para cada registro de finanzas
+                HBox finanzaItem = new HBox(10);
                 Label finanzaData = new Label(tipo + " - " + monto + " - " + fecha + " - " + descripcion);
-                finanzasContainer.getChildren().add(finanzaData);
+
+                // Botón de edición
+                Button editButton = new Button("Editar");
+                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                editButton.setOnAction(event -> editFinanza(finanzaId));
+
+                // Añadir el texto y el botón al contenedor
+                finanzaItem.getChildren().addAll(finanzaData, editButton);
+                finanzasContainer.getChildren().add(finanzaItem);
             }
 
             // Obtener datos de la tabla Marketing
@@ -119,13 +130,25 @@ public class AdministradorController {
             marketingContainer.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
             while (marketingResultSet.next()) {
-                String nombreCampaña = marketingResultSet.getString("nombre_campaña");
+                int marketingId = marketingResultSet.getInt("id_campaña");
+                String nombreCampania = marketingResultSet.getString("nombre_campaña");
                 String descripcion = marketingResultSet.getString("descripcion");
                 String fechaInicio = marketingResultSet.getDate("fecha_inicio").toString();
                 String fechaFin = marketingResultSet.getDate("fecha_fin").toString();
                 String colaborador = marketingResultSet.getString("colaborador");
-                Label marketingData = new Label(nombreCampaña + " - " + descripcion + " - " + fechaInicio + " - " + fechaFin + " - " + colaborador);
-                marketingContainer.getChildren().add(marketingData);
+
+                // Crear un contenedor para cada registro de marketing
+                HBox marketingItem = new HBox(10);
+                Label marketingData = new Label(nombreCampania + " - " + descripcion + " - " + fechaInicio + " - " + fechaFin + " - " + colaborador);
+
+                // Botón de edición
+                Button editButton = new Button("Editar");
+                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                editButton.setOnAction(event -> editMarketing(marketingId));
+
+                // Añadir el texto y el botón al contenedor
+                marketingItem.getChildren().addAll(marketingData, editButton);
+                marketingContainer.getChildren().add(marketingItem);
             }
 
             // Añadir las secciones al contenedor principal
@@ -148,6 +171,179 @@ public class AdministradorController {
         }
     }
 
+    // Método para editar una entrada de Marketing
+    private void editMarketing(int marketingId) {
+        mainContent.getChildren().clear(); // Limpiar el contenido actual
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Marketing WHERE id_campaña = ?")) {
+
+            stmt.setInt(1, marketingId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear campos de texto para la edición de los datos
+                TextField nombreCampaniaField = new TextField(rs.getString("nombre_campaña"));
+                TextField descripcionField = new TextField(rs.getString("descripcion"));
+                DatePicker fechaInicioPicker = new DatePicker(rs.getDate("fecha_inicio").toLocalDate());
+                DatePicker fechaFinPicker = new DatePicker(rs.getDate("fecha_fin").toLocalDate());
+                TextField colaboradorField = new TextField(rs.getString("colaborador"));
+
+                // Botón para guardar cambios
+                Button saveButton = new Button("Guardar");
+                saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+
+                // Acción del botón "Guardar"
+                saveButton.setOnAction(event -> saveMarketingChanges(
+                        marketingId,
+                        nombreCampaniaField.getText(),
+                        descripcionField.getText(),
+                        fechaInicioPicker.getValue().toString(),
+                        fechaFinPicker.getValue().toString(),
+                        colaboradorField.getText()
+                ));
+
+                // Añadir campos al VBox
+                VBox editContainer = new VBox(10);
+                editContainer.setPadding(new Insets(20));
+                editContainer.getChildren().addAll(
+                        new Label("Nombre de la Campaña:"), nombreCampaniaField,
+                        new Label("Descripción:"), descripcionField,
+                        new Label("Fecha de Inicio:"), fechaInicioPicker,
+                        new Label("Fecha de Fin:"), fechaFinPicker,
+                        new Label("Colaborador:"), colaboradorField,
+                        saveButton
+                );
+
+                // Mostrar el formulario de edición
+                mainContent.getChildren().add(editContainer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error al cargar la entrada de marketing para edición.");
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            mainContent.getChildren().add(errorLabel);
+        }
+    }
+
+    // Método para guardar los cambios en una entrada de Marketing
+    private void saveMarketingChanges(int marketingId, String nombreCampania, String descripcion, String fechaInicio, String fechaFin, String colaborador) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE Marketing SET nombre_campaña = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, colaborador = ? WHERE id_campaña = ?")) {
+
+            stmt.setString(1, nombreCampania);
+            stmt.setString(2, descripcion);
+            stmt.setDate(3, java.sql.Date.valueOf(fechaInicio));
+            stmt.setDate(4, java.sql.Date.valueOf(fechaFin));
+            stmt.setString(5, colaborador);
+            stmt.setInt(6, marketingId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Mostrar mensaje de éxito y recargar la vista
+                handlePlanFinanciero();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Entrada de marketing actualizada exitosamente.");
+                alert.showAndWait();
+            } else {
+                // Mostrar mensaje de error si no se actualizó ningún registro
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo actualizar la entrada de marketing.");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al guardar los cambios.");
+            alert.showAndWait();
+        }
+    }
+
+
+    // Método para editar una entrada de Finanzas
+    private void editFinanza(int finanzaId) {
+        mainContent.getChildren().clear(); // Limpiar el contenido actual
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Finanzas WHERE id_finanza = ?")) {
+
+            stmt.setInt(1, finanzaId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear campos de texto para la edición de los datos
+                TextField tipoField = new TextField(rs.getString("tipo"));
+                TextField montoField = new TextField(String.valueOf(rs.getDouble("monto")));
+                DatePicker fechaPicker = new DatePicker(rs.getDate("fecha").toLocalDate());
+                TextField descripcionField = new TextField(rs.getString("descripcion"));
+
+                // Botón para guardar cambios
+                Button saveButton = new Button("Guardar");
+                saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+
+                // Acción del botón "Guardar"
+                saveButton.setOnAction(event -> saveFinanzaChanges(finanzaId, tipoField.getText(),
+                        Double.parseDouble(montoField.getText()), fechaPicker.getValue().toString(),
+                        descripcionField.getText()));
+
+                // Añadir campos al VBox
+                VBox editContainer = new VBox(10);
+                editContainer.setPadding(new Insets(20));
+                editContainer.getChildren().addAll(
+                        new Label("Tipo:"), tipoField,
+                        new Label("Monto:"), montoField,
+                        new Label("Fecha:"), fechaPicker,
+                        new Label("Descripción:"), descripcionField,
+                        saveButton
+                );
+
+                // Mostrar el formulario de edición
+                mainContent.getChildren().add(editContainer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error al cargar la entrada de finanzas para edición.");
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            mainContent.getChildren().add(errorLabel);
+        }
+    }
+
+    // Método para guardar los cambios en una entrada de Finanzas
+    private void saveFinanzaChanges(int finanzaId, String tipo, double monto, String fecha, String descripcion) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE Finanzas SET tipo = ?, monto = ?, fecha = ?, descripcion = ? WHERE id_finanza = ?")) {
+
+            stmt.setString(1, tipo);
+            stmt.setDouble(2, monto);
+            stmt.setDate(3, java.sql.Date.valueOf(fecha));
+            stmt.setString(4, descripcion);
+            stmt.setInt(5, finanzaId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Mostrar mensaje de éxito y recargar la vista
+                handlePlanFinanciero();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Entrada de finanzas actualizada exitosamente.");
+                alert.showAndWait();
+            } else {
+                // Mostrar mensaje de error si no se actualizó ningún registro
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo actualizar la entrada de finanzas.");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al guardar los cambios.");
+            alert.showAndWait();
+        }
+    }
+
+// Similarmente, se puede implementar el método "editMarketing" y "saveMarketingChanges"
+// para la edición de las entradas de marketing.
+
+
 
     // Método para mostrar información de clientes
     private void showClientes() {
@@ -167,19 +363,27 @@ public class AdministradorController {
 
             // Iterar sobre los resultados y crear un bloque visual para cada cliente
             while (rs.next()) {
+                int clienteId = rs.getInt("id_cliente"); // Suponiendo que el ID del cliente es "id_cliente"
+                String nombre = rs.getString("nombre");
+                String telefono = rs.getString("telefono");
+                String email = rs.getString("email");
+                String direccion = rs.getString("direccion");
+                String comentarios = rs.getString("comentarios");
+                String programaFidelizacion = rs.getString("programa_fidelizacion");
+
                 // Crear un VBox para cada cliente
                 VBox clienteBox = new VBox(5); // 5px de espaciado entre líneas
                 clienteBox.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
                 // Información del cliente
-                Label nombreLabel = new Label("Nombre: " + rs.getString("nombre"));
+                Label nombreLabel = new Label("Nombre: " + nombre);
                 nombreLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-                Label telefonoLabel = new Label("Teléfono: " + rs.getString("telefono"));
-                Label emailLabel = new Label("Email: " + rs.getString("email"));
-                Label direccionLabel = new Label("Dirección: " + rs.getString("direccion"));
-                Label comentariosLabel = new Label("Comentarios: " + rs.getString("comentarios"));
-                Label fidelizacionLabel = new Label("Programa de Fidelización: " + rs.getString("programa_fidelizacion"));
+                Label telefonoLabel = new Label("Teléfono: " + telefono);
+                Label emailLabel = new Label("Email: " + email);
+                Label direccionLabel = new Label("Dirección: " + direccion);
+                Label comentariosLabel = new Label("Comentarios: " + comentarios);
+                Label fidelizacionLabel = new Label("Programa de Fidelización: " + programaFidelizacion);
 
                 // Aplicar estilos a los textos
                 telefonoLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #34495e;");
@@ -188,8 +392,15 @@ public class AdministradorController {
                 comentariosLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #34495e;");
                 fidelizacionLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #34495e;");
 
-                // Añadir las etiquetas al VBox del cliente
-                clienteBox.getChildren().addAll(nombreLabel, telefonoLabel, emailLabel, direccionLabel, comentariosLabel, fidelizacionLabel);
+                // Botón de edición
+                Button editButton = new Button("Editar");
+                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+
+                // Acción del botón "Editar"
+                editButton.setOnAction(event -> editCliente(clienteId));
+
+                // Añadir las etiquetas y el botón al VBox del cliente
+                clienteBox.getChildren().addAll(nombreLabel, telefonoLabel, emailLabel, direccionLabel, comentariosLabel, fidelizacionLabel, editButton);
 
                 // Añadir el VBox del cliente al contenedor principal
                 clientesContainer.getChildren().add(clienteBox);
@@ -211,6 +422,94 @@ public class AdministradorController {
             mainContent.getChildren().add(errorLabel); // Mostrar mensaje de error
         }
     }
+
+    // Método para editar un cliente
+    private void editCliente(int clienteId) {
+        mainContent.getChildren().clear(); // Limpiar el contenido actual
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Clientes WHERE id_cliente = ?")) {
+
+            stmt.setInt(1, clienteId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear campos de texto para la edición de los datos
+                TextField nombreField = new TextField(rs.getString("nombre"));
+                TextField telefonoField = new TextField(rs.getString("telefono"));
+                TextField emailField = new TextField(rs.getString("email"));
+                TextField direccionField = new TextField(rs.getString("direccion"));
+                TextField comentariosField = new TextField(rs.getString("comentarios"));
+                TextField fidelizacionField = new TextField(rs.getString("programa_fidelizacion"));
+
+                // Botón para guardar cambios
+                Button saveButton = new Button("Guardar");
+                saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+
+                // Acción del botón "Guardar"
+                saveButton.setOnAction(event -> saveClienteChanges(clienteId, nombreField.getText(),
+                        telefonoField.getText(), emailField.getText(), direccionField.getText(),
+                        comentariosField.getText(), fidelizacionField.getText()));
+
+                // Añadir campos al VBox
+                VBox editContainer = new VBox(10);
+                editContainer.setPadding(new Insets(20));
+                editContainer.getChildren().addAll(
+                        new Label("Nombre:"), nombreField,
+                        new Label("Teléfono:"), telefonoField,
+                        new Label("Email:"), emailField,
+                        new Label("Dirección:"), direccionField,
+                        new Label("Comentarios:"), comentariosField,
+                        new Label("Programa de Fidelización:"), fidelizacionField,
+                        saveButton
+                );
+
+                // Mostrar el formulario de edición
+                mainContent.getChildren().add(editContainer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error al cargar el cliente para edición.");
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            mainContent.getChildren().add(errorLabel);
+        }
+    }
+
+    // Método para guardar los cambios del cliente
+    private void saveClienteChanges(int clienteId, String nombre, String telefono, String email,
+                                    String direccion, String comentarios, String fidelizacion) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE Clientes SET nombre = ?, telefono = ?, email = ?, direccion = ?, comentarios = ?, programa_fidelizacion = ? WHERE id_cliente = ?")) {
+
+            stmt.setString(1, nombre);
+            stmt.setString(2, telefono);
+            stmt.setString(3, email);
+            stmt.setString(4, direccion);
+            stmt.setString(5, comentarios);
+            stmt.setString(6, fidelizacion);
+            stmt.setInt(7, clienteId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Mostrar mensaje de éxito y recargar la lista de clientes
+                showClientes();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Cliente actualizado exitosamente.");
+                alert.showAndWait();
+            } else {
+                // Mostrar mensaje de error si no se actualizó ningún registro
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo actualizar el cliente.");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al guardar los cambios.");
+            alert.showAndWait();
+        }
+    }
+
 
 
     @FXML
@@ -236,16 +535,33 @@ public class AdministradorController {
             productosContainer.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
             while (rs.next()) {
+                int productoId = rs.getInt("id_producto"); // Suponiendo que el ID del producto es "id_producto"
                 String nombre = rs.getString("nombre");
                 double precio = rs.getDouble("precio");
                 String imagen = rs.getString("imagen");
                 String categoria = rs.getString("categoria");
 
-                // Crear una etiqueta con la información del producto
+                // Crear un VBox para la información del producto
+                VBox productoBox = new VBox(5); // Espaciado entre los elementos del producto
+                productoBox.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
+
+                // Información del producto
                 Label productoData = new Label(String.format("Nombre: %s, Precio: %.2f, Imagen: %s, Categoría: %s",
                         nombre, precio, imagen, categoria));
-                productoData.setStyle("-fx-font-size: 16px; -fx-text-fill: #34495e;"); // Estilo para cada producto
-                productosContainer.getChildren().add(productoData); // Añadir datos del producto
+                productoData.setStyle("-fx-font-size: 16px; -fx-text-fill: #34495e;");
+
+                // Botón de edición
+                Button editButton = new Button("Editar");
+                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+
+                // Acción del botón "Editar"
+                editButton.setOnAction(event -> editProducto(productoId));
+
+                // Añadir la información y el botón al VBox del producto
+                productoBox.getChildren().addAll(productoData, editButton);
+
+                // Añadir el VBox del producto al contenedor principal de productos
+                productosContainer.getChildren().add(productoBox);
             }
 
             // Añadir el contenedor de productos al contenedor principal
@@ -267,6 +583,85 @@ public class AdministradorController {
             mainContent.getChildren().add(errorLabel); // Mostrar mensaje de error
         }
     }
+
+    private void editProducto(int productoId) {
+        // Limpiar el contenido actual
+        mainContent.getChildren().clear();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Productos WHERE id_producto = ?")) {
+
+            stmt.setInt(1, productoId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear campos de texto para la edición de los datos
+                TextField nombreField = new TextField(rs.getString("nombre"));
+                TextField precioField = new TextField(String.valueOf(rs.getDouble("precio")));
+                TextField imagenField = new TextField(rs.getString("imagen"));
+                TextField categoriaField = new TextField(rs.getString("categoria"));
+
+                // Botón para guardar cambios
+                Button saveButton = new Button("Guardar");
+                saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+
+                // Acción del botón "Guardar"
+                saveButton.setOnAction(event -> saveProductoChanges(productoId, nombreField.getText(),
+                        Double.parseDouble(precioField.getText()), imagenField.getText(), categoriaField.getText()));
+
+                // Añadir campos al VBox
+                VBox editContainer = new VBox(10);
+                editContainer.setPadding(new Insets(20));
+                editContainer.getChildren().addAll(
+                        new Label("Nombre:"), nombreField,
+                        new Label("Precio:"), precioField,
+                        new Label("Imagen:"), imagenField,
+                        new Label("Categoría:"), categoriaField,
+                        saveButton
+                );
+
+                // Mostrar el formulario de edición
+                mainContent.getChildren().add(editContainer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error al cargar el producto para edición.");
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            mainContent.getChildren().add(errorLabel);
+        }
+    }
+
+    private void saveProductoChanges(int productoId, String nombre, double precio, String imagen, String categoria) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE Productos SET nombre = ?, precio = ?, imagen = ?, categoria = ? WHERE id_producto = ?")) {
+
+            stmt.setString(1, nombre);
+            stmt.setDouble(2, precio);
+            stmt.setString(3, imagen);
+            stmt.setString(4, categoria);
+            stmt.setInt(5, productoId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Mostrar mensaje de éxito y recargar la lista de productos
+                showInventario();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Producto actualizado exitosamente.");
+                alert.showAndWait();
+            } else {
+                // Mostrar mensaje de error si no se actualizó ningún registro
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo actualizar el producto.");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al guardar los cambios.");
+            alert.showAndWait();
+        }
+    }
+
 
 
     // Método para mostrar información de proveedores
@@ -308,8 +703,16 @@ public class AdministradorController {
                 emailLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #34495e;");
                 calidadLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #34495e;");
 
-                // Añadir las etiquetas al VBox del proveedor
-                proveedorBox.getChildren().addAll(nombreLabel, contactoLabel, direccionLabel, telefonoLabel, emailLabel, calidadLabel);
+                // Botón de edición
+                Button editButton = new Button("Editar");
+                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                int proveedorId = rs.getInt("id_proveedor"); // Suponiendo que tienes un campo 'id' para identificar al proveedor
+
+                // Acción del botón "Editar"
+                editButton.setOnAction(event -> editProveedor(proveedorId));
+
+                // Añadir las etiquetas y el botón al VBox del proveedor
+                proveedorBox.getChildren().addAll(nombreLabel, contactoLabel, direccionLabel, telefonoLabel, emailLabel, calidadLabel, editButton);
 
                 // Añadir el VBox del proveedor al contenedor principal
                 proveedoresContainer.getChildren().add(proveedorBox);
@@ -332,8 +735,92 @@ public class AdministradorController {
         }
     }
 
-    // Método para volver al contenido inicial
+    private void editProveedor(int proveedorId) {
+        // Limpiar el contenido actual
+        mainContent.getChildren().clear();
 
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Proveedores WHERE id_proveedor = ?")) {
+
+            stmt.setInt(1, proveedorId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear campos de texto para la edición de los datos
+                TextField nombreField = new TextField(rs.getString("nombre"));
+                TextField contactoField = new TextField(rs.getString("contacto"));
+                TextField direccionField = new TextField(rs.getString("direccion"));
+                TextField telefonoField = new TextField(rs.getString("telefono"));
+                TextField emailField = new TextField(rs.getString("email"));
+                TextField calidadField = new TextField(rs.getString("calidad_producto"));
+
+                // Botón para guardar cambios
+                Button saveButton = new Button("Guardar");
+                saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+
+                // Acción del botón "Guardar"
+                saveButton.setOnAction(event -> saveProveedorChanges(proveedorId, nombreField.getText(), contactoField.getText(),
+                        direccionField.getText(), telefonoField.getText(), emailField.getText(), calidadField.getText()));
+
+                // Añadir campos al VBox
+                VBox editContainer = new VBox(10);
+                editContainer.setPadding(new Insets(20));
+                editContainer.getChildren().addAll(
+                        new Label("Nombre:"), nombreField,
+                        new Label("Contacto:"), contactoField,
+                        new Label("Dirección:"), direccionField,
+                        new Label("Teléfono:"), telefonoField,
+                        new Label("Email:"), emailField,
+                        new Label("Calidad del Producto:"), calidadField,
+                        saveButton
+                );
+
+                // Mostrar el formulario de edición
+                mainContent.getChildren().add(editContainer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error al cargar el proveedor para edición.");
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            mainContent.getChildren().add(errorLabel);
+        }
+    }
+
+    private void saveProveedorChanges(int proveedorId, String nombre, String contacto, String direccion, String telefono, String email, String calidad) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE Proveedores SET nombre = ?, contacto = ?, direccion = ?, telefono = ?, email = ?, calidad_producto = ? WHERE id_proveedor = ?")) {
+
+            stmt.setString(1, nombre);
+            stmt.setString(2, contacto);
+            stmt.setString(3, direccion);
+            stmt.setString(4, telefono);
+            stmt.setString(5, email);
+            stmt.setString(6, calidad);
+            stmt.setInt(7, proveedorId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Mostrar mensaje de éxito y recargar la lista de proveedores
+                showProveedores();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Proveedor actualizado exitosamente.");
+                alert.showAndWait();
+            } else {
+                // Mostrar mensaje de error si no se actualizó ningún registro
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo actualizar el proveedor.");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al guardar los cambios.");
+            alert.showAndWait();
+        }
+    }
+
+
+    // Método para volver al contenido inicial
     private void showInicio() {
         mainContent.getChildren().clear();
 
@@ -431,7 +918,18 @@ public class AdministradorController {
                 Label empleadoData = new Label(String.format("ID: %d, Nombre: %s, Email: %s, Teléfono: %s, Dirección: %s, Salario: %.2f, Puesto: %s",
                         idEmpleado, nombreApellidos, email, telefono, direccion, salario, puestoTrabajo));
                 empleadoData.setStyle("-fx-font-size: 16px; -fx-text-fill: #34495e;"); // Estilo para cada empleado
-                empleadosContainer.getChildren().add(empleadoData); // Añadir datos del empleado
+
+                // Crear botón para editar el empleado
+                Button editButton = new Button("Editar");
+                editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                editButton.setOnAction(event -> editEmpleado(idEmpleado)); // Llamar al método editEmpleado
+
+                // Contenedor horizontal para el empleado y el botón de editar
+                HBox empleadoItem = new HBox(10, empleadoData, editButton);
+                empleadoItem.setAlignment(Pos.CENTER_LEFT);
+
+                // Añadir al contenedor de empleados
+                empleadosContainer.getChildren().add(empleadoItem);
             }
 
             // Añadir el contenedor de empleados al contenedor principal
@@ -453,6 +951,100 @@ public class AdministradorController {
             mainContent.getChildren().add(errorLabel); // Mostrar mensaje de error
         }
     }
+
+
+    // Método para editar un empleado
+    private void editEmpleado(int empleadoId) {
+        mainContent.getChildren().clear(); // Limpiar el contenido actual
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Empleados WHERE id_empleado = ?")) {
+
+            stmt.setInt(1, empleadoId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Crear campos de texto para editar los datos del empleado
+                TextField nombreApellidosField = new TextField(rs.getString("nombre_apellidos"));
+                TextField emailField = new TextField(rs.getString("email"));
+                TextField telefonoField = new TextField(rs.getString("telefono"));
+                TextField direccionField = new TextField(rs.getString("direccion"));
+                TextField salarioField = new TextField(Double.toString(rs.getDouble("salario")));
+                TextField puestoTrabajoField = new TextField(rs.getString("puesto_trabajo"));
+
+                // Botón para guardar los cambios
+                Button saveButton = new Button("Guardar");
+                saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+
+                // Acción del botón "Guardar"
+                saveButton.setOnAction(event -> saveEmpleadoChanges(
+                        empleadoId,
+                        nombreApellidosField.getText(),
+                        emailField.getText(),
+                        telefonoField.getText(),
+                        direccionField.getText(),
+                        Double.parseDouble(salarioField.getText()),
+                        puestoTrabajoField.getText()
+                ));
+
+                // Añadir los campos al VBox
+                VBox editContainer = new VBox(10);
+                editContainer.setPadding(new Insets(20));
+                editContainer.getChildren().addAll(
+                        new Label("Nombre y Apellidos:"), nombreApellidosField,
+                        new Label("Email:"), emailField,
+                        new Label("Teléfono:"), telefonoField,
+                        new Label("Dirección:"), direccionField,
+                        new Label("Salario:"), salarioField,
+                        new Label("Puesto de Trabajo:"), puestoTrabajoField,
+                        saveButton
+                );
+
+                // Mostrar el formulario de edición
+                mainContent.getChildren().add(editContainer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Label errorLabel = new Label("Error al cargar los datos del empleado para edición.");
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            mainContent.getChildren().add(errorLabel);
+        }
+    }
+
+    // Método para guardar los cambios en un empleado
+    private void saveEmpleadoChanges(int empleadoId, String nombreApellidos, String email, String telefono, String direccion, double salario, String puestoTrabajo) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(
+                     "UPDATE Empleados SET nombre_apellidos = ?, email = ?, telefono = ?, direccion = ?, salario = ?, puesto_trabajo = ? WHERE id_empleado = ?")) {
+
+            stmt.setString(1, nombreApellidos);
+            stmt.setString(2, email);
+            stmt.setString(3, telefono);
+            stmt.setString(4, direccion);
+            stmt.setDouble(5, salario);
+            stmt.setString(6, puestoTrabajo);
+            stmt.setInt(7, empleadoId);
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Mostrar mensaje de éxito y recargar la vista
+                showEmpleados();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Empleado actualizado exitosamente.");
+                alert.showAndWait();
+            } else {
+                // Mostrar mensaje de error si no se actualizó ningún registro
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo actualizar el empleado.");
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al guardar los cambios.");
+            alert.showAndWait();
+        }
+    }
+
 
     // Método para mostrar el formulario de agregar empleados
     @FXML
