@@ -52,7 +52,7 @@ public class CompraController {
     @FXML
     private void iraTiendaInicio() {
         Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow();
-        NavigationUtil.cambiarVista("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
+        NavigationUtil.cambiarVistaAdmin("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
 
         // Al cambiar a AdministradorView.fxml
         stage.setTitle("TiendaInicioView");

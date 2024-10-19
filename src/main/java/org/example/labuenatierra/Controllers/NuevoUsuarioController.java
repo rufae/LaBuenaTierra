@@ -33,25 +33,12 @@ public class NuevoUsuarioController {
 
     @FXML
     private void handleBackToLoginClick(ActionEvent event) {
-        try{
-            // Cargar la vista de Login
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
-            Parent loginView = loader.load();
+        // Obtener el Stage actual
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/LoginView.fxml", stage);
 
-            // Obtener el Stage actual
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Cambiar a la escena de Login
-            Scene loginScene = new Scene(loginView);
-            stage.setScene(loginScene);
-            stage.setTitle("Login"); // Opcional: establecer el título de la ventana
-            stage.show();
-
-            // Limpiar la sesión actual
-            Session.logout();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Limpiar la sesión actual
+        Session.logout();
     }
 
     @FXML
@@ -93,16 +80,8 @@ public class NuevoUsuarioController {
             e.printStackTrace();
         }
 
-        // Redirigir a la vista de inicio de sesión
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/LoginView.fxml", stage);
     }
 
     // Métodos de validación

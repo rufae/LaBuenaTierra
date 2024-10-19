@@ -80,25 +80,13 @@ public class TiendaController {
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        try {
-            // Cargar la vista de Login
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
-            Parent loginView = loader.load();
+        // Obtener el Stage actual
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/LoginView.fxml", stage);
 
-            // Obtener el Stage actual
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Cambiar a la escena de Login
-            Scene loginScene = new Scene(loginView);
-            stage.setScene(loginScene);
-            stage.setTitle("Login"); // Opcional: establecer el título de la ventana
-            stage.show();
-
-            // Limpiar la sesión actual
-            Session.logout();
-        }catch (IOException e) {
-            logger.log(Level.SEVERE, "Error al cargar la vista de LoginView.fxml", e);
-        }
+        stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+        // Limpiar la sesión actual
+        Session.logout();
     }
 
     @FXML
@@ -108,22 +96,15 @@ public class TiendaController {
         // Al cambiar a AdministradorView.fxml
         stage.setTitle("TiendaInicioView");
 
-        NavigationUtil.cambiarVista("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
+        NavigationUtil.cambiarVistaAdmin("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
 
     }
 
     private void irACompraView() {
-        try {
-            // Cambia la vista a CompraView.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/CompraView.fxml"));
-            Parent compraView = loader.load();
-            Stage stage = (Stage) cartButton.getScene().getWindow();  // Cambiado a cartButton
-            Scene scene = new Scene(compraView); // Asegúrate de crear una nueva escena
-            stage.setScene(scene);
-            stage.show();  // Muestra la nueva vista
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error al cargar la vista de CompraView.fxml", e);
-        }
+        // Cambia la vista a CompraView.fxml
+        Stage stage = (Stage) cartButton.getScene().getWindow();  // Cambiado a cartButton
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/CompraView.fxml", stage);
+
     }
 
     private void cargarProductosPorCategoria(String categoria) {
@@ -210,6 +191,7 @@ public class TiendaController {
         // Evento para redirigir a ProductoView.fxml al hacer clic
         vbox.setOnMouseClicked(_ -> {
             try {
+                Stage stage = (Stage) vbox.getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/ProductoView.fxml"));
                 Parent productoView = loader.load();
 
@@ -219,7 +201,7 @@ public class TiendaController {
                 productoController.setProductoSeleccionado(producto);
 
                 // Obtener la escena y cargar la nueva vista
-                Stage stage = (Stage) vbox.getScene().getWindow();
+
                 Scene scene = new Scene(productoView);
                 stage.setScene(scene);
 

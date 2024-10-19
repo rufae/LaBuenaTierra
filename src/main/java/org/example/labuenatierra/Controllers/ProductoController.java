@@ -82,6 +82,6 @@ public class ProductoController {
     @FXML
     private void irATiendaInicio() {
         Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow();
-        NavigationUtil.cambiarVista("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
+        NavigationUtil.cambiarVistaAdmin("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
     }
 }

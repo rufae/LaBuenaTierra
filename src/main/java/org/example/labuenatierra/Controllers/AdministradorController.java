@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.NavigableMap;
 
 import org.example.labuenatierra.Models.DatabaseConnection; // Importa tu clase de conexión
 
@@ -843,41 +844,27 @@ public class AdministradorController {
 
     @FXML
     private void handleLogout(ActionEvent event) {
-        try {
-            // Cargar la vista de Login
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
-            Parent loginView = loader.load();
+        // Obtener el Stage actual
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/LoginView.fxml", stage);
 
-            // Obtener el Stage actual
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+        stage.show();
 
-            // Cambiar a la escena de Login
-            Scene loginScene = new Scene(loginView);
-            stage.setScene(loginScene);
-            stage.setTitle("Login"); // Opcional: establecer el título de la ventana
-            stage.show();
-
-            // Limpiar la sesión actual
-            Session.logout();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Limpiar la sesión actual
+        Session.logout();
     }
 
     @FXML
     private void redirectShop() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/TiendaInicioView.fxml"));
-        Parent tiendaInicioView = fxmlLoader.load();
+
 
         // Obtener el Stage desde el evento de clic en lugar del label
         Stage stage = (Stage) buttonShop.getScene().getWindow();
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
 
         // Al cambiar a AdministradorView.fxml
         stage.setTitle("AdministradorView");
-
-        // Cambiar la raíz de la escena
-        Scene currentScene = stage.getScene();
-        currentScene.setRoot(tiendaInicioView);
 
         // Ajustar el tamaño de la ventana
         stage.sizeToScene(); // Ajustar al tamaño de la nueva escena

@@ -71,13 +71,8 @@ public class LoginController {
                 errorMessage.setVisible(true);
             } else {
                 // Cargar vista de administrador
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/AdministradorView.fxml"));
-                Parent admin = loader.load();
-                Scene adminScene = new Scene(admin);
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-                window.setScene(adminScene);
-                window.show();
+                NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/AdministradorView.fxml", window);
 
                 Session.setAdmin(true);
 
@@ -87,13 +82,9 @@ public class LoginController {
         } else if ("Cliente".equals(userType)) {
             // Validar la contraseña para cliente desde la base de datos
             if (validateClientCredentials(username, password)) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/TiendaInicioView.fxml"));
-                Parent tiendaView = loader.load();
-                Scene tiendaScene = new Scene(tiendaView);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-                window.setScene(tiendaScene);
-                window.show();
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/TiendaInicioView.fxml", window);
 
                 System.out.println("Iniciando sesión como Cliente...");
                 errorMessage.setVisible(false);
@@ -131,19 +122,13 @@ public class LoginController {
 
     // Método para obtener el ID del cliente
     public static int getIdCliente() {
-        return idCliente; // Retornar el ID del cliente
+        return idCliente;
     }
 
     @FXML
     private void handleNewUserLinkClick(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/NuevoUsuarioView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/NuevoUsuarioView.fxml", stage);
+
     }
 }
