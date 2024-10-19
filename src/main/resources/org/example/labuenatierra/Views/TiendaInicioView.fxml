@@ -18,13 +18,14 @@
                     <ImageView fx:id="cartIcon" />
                 </graphic>
             </Button>
+
             <Button fx:id="logoutButton" text="Cerrar Sesión" onAction="#handleLogout"/>
         </HBox>
     </top>
 
     <!-- ScrollPane para manejar el desplazamiento de productos en toda la ventana -->
     <center>
-        <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
             <VBox style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f89c56, #f1c69c);" alignment="CENTER" spacing="10.0" styleClass="v-box-center" stylesheets="@../../../../styles/TiendaInicio.css">
                 <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                     <Label styleClass="label-main-title" text="Productos artesanos de primera calidad" />

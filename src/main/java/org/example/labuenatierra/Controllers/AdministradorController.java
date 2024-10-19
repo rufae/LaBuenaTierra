@@ -21,6 +21,7 @@ import org.example.labuenatierra.Models.DatabaseConnection; // Importa tu clase 
 public class AdministradorController {
 
     public Button logoutButton;
+
     public Button planFinancieroBtn;
     @FXML
     private VBox mainContent;
@@ -65,11 +66,11 @@ public class AdministradorController {
     @FXML
     private void initialize() {
         // Configurar acciones para los botones
-        clientesBtn.setOnAction(event -> showClientes());
-        inventarioBtn.setOnAction(event -> showInventario());
-        proveedoresBtn.setOnAction(event -> showProveedores());
-        listarEmpleadosBtn.setOnAction(event -> showEmpleados());
-        inicioBtn.setOnAction(event -> showInicio());
+        clientesBtn.setOnAction(_ -> showClientes());
+        inventarioBtn.setOnAction(_ -> showInventario());
+        proveedoresBtn.setOnAction(_ -> showProveedores());
+        listarEmpleadosBtn.setOnAction(_ -> showEmpleados());
+        inicioBtn.setOnAction(_ -> showInicio());
 
         showInicio();
     }
@@ -111,7 +112,7 @@ public class AdministradorController {
                 // Botón de edición
                 Button editButton = new Button("Editar");
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                editButton.setOnAction(event -> editFinanza(finanzaId));
+                editButton.setOnAction(_ -> editFinanza(finanzaId));
 
                 // Añadir el texto y el botón al contenedor
                 finanzaItem.getChildren().addAll(finanzaData, editButton);
@@ -144,7 +145,7 @@ public class AdministradorController {
                 // Botón de edición
                 Button editButton = new Button("Editar");
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                editButton.setOnAction(event -> editMarketing(marketingId));
+                editButton.setOnAction(_ -> editMarketing(marketingId));
 
                 // Añadir el texto y el botón al contenedor
                 marketingItem.getChildren().addAll(marketingData, editButton);
@@ -194,7 +195,7 @@ public class AdministradorController {
                 saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
                 // Acción del botón "Guardar"
-                saveButton.setOnAction(event -> saveMarketingChanges(
+                saveButton.setOnAction(_ -> saveMarketingChanges(
                         marketingId,
                         nombreCampaniaField.getText(),
                         descripcionField.getText(),
@@ -282,7 +283,7 @@ public class AdministradorController {
                 saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
                 // Acción del botón "Guardar"
-                saveButton.setOnAction(event -> saveFinanzaChanges(finanzaId, tipoField.getText(),
+                saveButton.setOnAction(_ -> saveFinanzaChanges(finanzaId, tipoField.getText(),
                         Double.parseDouble(montoField.getText()), fechaPicker.getValue().toString(),
                         descripcionField.getText()));
 
@@ -397,7 +398,7 @@ public class AdministradorController {
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
 
                 // Acción del botón "Editar"
-                editButton.setOnAction(event -> editCliente(clienteId));
+                editButton.setOnAction(_ -> editCliente(clienteId));
 
                 // Añadir las etiquetas y el botón al VBox del cliente
                 clienteBox.getChildren().addAll(nombreLabel, telefonoLabel, emailLabel, direccionLabel, comentariosLabel, fidelizacionLabel, editButton);
@@ -447,7 +448,7 @@ public class AdministradorController {
                 saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
                 // Acción del botón "Guardar"
-                saveButton.setOnAction(event -> saveClienteChanges(clienteId, nombreField.getText(),
+                saveButton.setOnAction(_ -> saveClienteChanges(clienteId, nombreField.getText(),
                         telefonoField.getText(), emailField.getText(), direccionField.getText(),
                         comentariosField.getText(), fidelizacionField.getText()));
 
@@ -555,7 +556,7 @@ public class AdministradorController {
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
 
                 // Acción del botón "Editar"
-                editButton.setOnAction(event -> editProducto(productoId));
+                editButton.setOnAction(_ -> editProducto(productoId));
 
                 // Añadir la información y el botón al VBox del producto
                 productoBox.getChildren().addAll(productoData, editButton);
@@ -606,7 +607,7 @@ public class AdministradorController {
                 saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
                 // Acción del botón "Guardar"
-                saveButton.setOnAction(event -> saveProductoChanges(productoId, nombreField.getText(),
+                saveButton.setOnAction(_ -> saveProductoChanges(productoId, nombreField.getText(),
                         Double.parseDouble(precioField.getText()), imagenField.getText(), categoriaField.getText()));
 
                 // Añadir campos al VBox
@@ -709,7 +710,7 @@ public class AdministradorController {
                 int proveedorId = rs.getInt("id_proveedor"); // Suponiendo que tienes un campo 'id' para identificar al proveedor
 
                 // Acción del botón "Editar"
-                editButton.setOnAction(event -> editProveedor(proveedorId));
+                editButton.setOnAction(_ -> editProveedor(proveedorId));
 
                 // Añadir las etiquetas y el botón al VBox del proveedor
                 proveedorBox.getChildren().addAll(nombreLabel, contactoLabel, direccionLabel, telefonoLabel, emailLabel, calidadLabel, editButton);
@@ -759,7 +760,7 @@ public class AdministradorController {
                 saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
                 // Acción del botón "Guardar"
-                saveButton.setOnAction(event -> saveProveedorChanges(proveedorId, nombreField.getText(), contactoField.getText(),
+                saveButton.setOnAction(_ -> saveProveedorChanges(proveedorId, nombreField.getText(), contactoField.getText(),
                         direccionField.getText(), telefonoField.getText(), emailField.getText(), calidadField.getText()));
 
                 // Añadir campos al VBox
@@ -922,7 +923,7 @@ public class AdministradorController {
                 // Crear botón para editar el empleado
                 Button editButton = new Button("Editar");
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                editButton.setOnAction(event -> editEmpleado(idEmpleado)); // Llamar al método editEmpleado
+                editButton.setOnAction(_ -> editEmpleado(idEmpleado)); // Llamar al método editEmpleado
 
                 // Contenedor horizontal para el empleado y el botón de editar
                 HBox empleadoItem = new HBox(10, empleadoData, editButton);
@@ -977,7 +978,7 @@ public class AdministradorController {
                 saveButton.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
                 // Acción del botón "Guardar"
-                saveButton.setOnAction(event -> saveEmpleadoChanges(
+                saveButton.setOnAction(_ -> saveEmpleadoChanges(
                         empleadoId,
                         nombreApellidosField.getText(),
                         emailField.getText(),
@@ -1080,7 +1081,7 @@ public class AdministradorController {
         // Botón para agregar el empleado
         Button addEmployeeButton = new Button("Agregar Empleado");
         addEmployeeButton.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;");
-        addEmployeeButton.setOnAction(event -> {
+        addEmployeeButton.setOnAction(_ -> {
             addEmployee(nombreField.getText(), emailField.getText(), telefonoField.getText(),
                     direccionField.getText(), Double.parseDouble(salarioField.getText()), puestoField.getText());
         });

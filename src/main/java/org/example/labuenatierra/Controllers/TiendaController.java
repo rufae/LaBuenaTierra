@@ -27,6 +27,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.geometry.Pos;
 
 
@@ -44,6 +47,8 @@ public class TiendaController {
     private ChoiceBox<String> categoryChoiceBox;
     @FXML
     private TextField searchField;
+    private static final Logger logger = Logger.getLogger(TiendaController.class.getName());
+
 
     private final ObservableList<String> categorias = FXCollections.observableArrayList(
             "Todos", "Bollería Artesanal", "Productos de Navidad", "Fritos", "Tortas Artesanas"
@@ -60,16 +65,14 @@ public class TiendaController {
         }
 
         // Hacer el botón del carrito pulsable
-        cartButton.setOnMouseClicked(event -> {
-            irACompraView();
-        });
+        cartButton.setOnMouseClicked(_ -> irACompraView());
 
         // Configurar ChoiceBox
         categoryChoiceBox.setItems(categorias);
         categoryChoiceBox.setValue("Todos"); // Valor por defecto
 
         // Cargar productos por categoría
-        categoryChoiceBox.setOnAction(event -> cargarProductosPorCategoria(categoryChoiceBox.getValue()));
+        categoryChoiceBox.setOnAction(_ -> cargarProductosPorCategoria(categoryChoiceBox.getValue()));
 
         // Cargar productos al inicializar
         cargarProductosPorCategoria("Todos");
@@ -93,8 +96,8 @@ public class TiendaController {
 
             // Limpiar la sesión actual
             Session.logout();
-        } catch (IOException e) {
-            e.printStackTrace();
+        }catch (IOException e) {
+            logger.log(Level.SEVERE, "Error al cargar la vista de LoginView.fxml", e);
         }
     }
 
@@ -119,7 +122,7 @@ public class TiendaController {
             stage.setScene(scene);
             stage.show();  // Muestra la nueva vista
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error al cargar la vista de CompraView.fxml", e);
         }
     }
 
@@ -167,9 +170,8 @@ public class TiendaController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error al cargar productos desde la base de datos", e);
         }
-
         return productos;
     }
 
@@ -206,7 +208,7 @@ public class TiendaController {
         vbox.getChildren().addAll(imageView, nombreLabel, precioLabel);
 
         // Evento para redirigir a ProductoView.fxml al hacer clic
-        vbox.setOnMouseClicked(event -> {
+        vbox.setOnMouseClicked(_ -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/ProductoView.fxml"));
                 Parent productoView = loader.load();
@@ -222,17 +224,17 @@ public class TiendaController {
                 stage.setScene(scene);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "Error al cargar la vista de ProductoView.fxml", e);
             }
         });
 
         // Efecto de zoom cuando el mouse pasa por encima
-        vbox.setOnMouseEntered(event -> {
+        vbox.setOnMouseEntered(_ -> {
             vbox.setScaleX(1.1);
             vbox.setScaleY(1.1);
         });
 
-        vbox.setOnMouseExited(event -> {
+        vbox.setOnMouseExited(_ -> {
             vbox.setScaleX(1.0);
             vbox.setScaleY(1.0);
         });
@@ -258,7 +260,7 @@ public class TiendaController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error al cargar productos desde la base de datos", e);
         }
 
         return productos;

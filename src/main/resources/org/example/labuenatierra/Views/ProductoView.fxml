@@ -24,7 +24,7 @@
             <!-- Campo para seleccionar la cantidad y botón de añadir al carrito -->
             <VBox alignment="CENTER" spacing="10.0" styleClass="v-box-center">
                 <Label styleClass="cantidad-label" text="Cantidad" />
-                <Spinner fx:id="cantidadSpinner" initialValue="1" max="99" min="1" />
+                <Spinner fx:id="cantidadSpinner" initialValue="1" max="99" min="1" editable="true"/>
                 <Button fx:id="buttonAgregar" styleClass="button-carrito" text="Añadir al carrito" onAction="#agregarAlCarrito"/>
             </VBox>
         </VBox>

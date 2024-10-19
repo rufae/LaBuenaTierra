@@ -34,6 +34,8 @@ public class ProductoController {
 
     @FXML
     private void initialize() {
+        // Permitir que el Spinner sea editable
+        cantidadSpinner.setEditable(true);
 
         // Deshabilitar los botones si es administrador
         if (Session.isAdmin()) {

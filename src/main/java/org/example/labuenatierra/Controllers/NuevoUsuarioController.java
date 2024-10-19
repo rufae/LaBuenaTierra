@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -13,11 +14,11 @@ import org.example.labuenatierra.Models.DatabaseConnection;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class NuevoUsuarioController {
+    public Label errorLabel;
     @FXML
     private TextField usernameField;
     @FXML
@@ -32,7 +33,7 @@ public class NuevoUsuarioController {
 
     @FXML
     private void handleBackToLoginClick(ActionEvent event) {
-        try {
+        try{
             // Cargar la vista de Login
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/labuenatierra/Views/LoginView.fxml"));
             Parent loginView = loader.load();
@@ -61,7 +62,23 @@ public class NuevoUsuarioController {
         String address = addressField.getText();
         String password = passwordField.getText();
 
-        // Guardar los datos en la base de datos (aquí va la lógica SQL)
+        // Validación de los campos
+        if (!validarCadena(username) || !validarCadena(address) || !validarCadena(password)) {
+            mostrarAlerta("El nombre de usuario, dirección o contraseña no pueden estar vacíos.");
+            return;
+        }
+
+        if (!validarTelefono(phone)) {
+            mostrarAlerta("El teléfono deben de ser exactamente 9 dígitos numéricos.");
+            return;
+        }
+
+        if (!validarCorreo(email)) {
+            mostrarAlerta("El correo electrónico debe tener un formato válido (por ejemplo, usuario@gmail.com).");
+            return;
+        }
+
+        // Guardar los datos en la base de datos
         try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "INSERT INTO clientes (nombre, telefono, email, direccion, contraseña) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -88,4 +105,22 @@ public class NuevoUsuarioController {
         }
     }
 
+    // Métodos de validación
+    private boolean validarCadena(String cadena) {
+        return cadena != null && !cadena.trim().isEmpty();
+    }
+
+    private boolean validarTelefono(String telefono) {
+        return telefono.matches("\\d{9}"); // Debe contener exactamente 9 dígitos numéricos
+    }
+
+    private boolean validarCorreo(String correo) {
+        return correo.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$"); // Formato de correo electrónico
+    }
+
+    // Método para mostrar una alerta al usuario
+    private void mostrarAlerta(String mensaje) {
+        errorLabel.setText(mensaje);
+        errorLabel.setStyle("-fx-text-fill: red;");
+    }
 }

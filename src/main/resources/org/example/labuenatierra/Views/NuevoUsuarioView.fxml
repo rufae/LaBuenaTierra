@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" stylesheets="@../../../../styles/NuevosUsuarios.css" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.NuevoUsuarioController">
+<BorderPane prefHeight="400.0" stylesheets="@../../../../styles/NuevosUsuarios.css" prefWidth="650.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.labuenatierra.Controllers.NuevoUsuarioController">
 
     <!-- Área principal -->
     <center>
@@ -56,6 +56,9 @@
 
             <!-- Botón de guardar datos -->
             <Button text="Guardar Datos" onAction="#handleSaveDataClick" />
+
+            <Label fx:id="errorLabel" text=" " styleClass="error-label" />
+
             <Label text=" "/>
         </VBox>
     </center>
