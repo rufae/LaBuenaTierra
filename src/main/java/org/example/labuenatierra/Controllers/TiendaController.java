@@ -40,7 +40,7 @@ public class TiendaController {
     @FXML
     private ImageView cartIcon;
     @FXML
-    private Button cartButton;  // Nuevo botón para el carrito
+    private Button cartButton;
     @FXML
     private GridPane gridPaneProductos;
     @FXML
@@ -84,7 +84,7 @@ public class TiendaController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/LoginView.fxml", stage);
 
-        stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+        stage.setTitle("Login");
         // Limpiar la sesión actual
         Session.logout();
     }

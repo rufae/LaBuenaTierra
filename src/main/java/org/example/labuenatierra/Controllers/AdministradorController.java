@@ -2,12 +2,10 @@ package org.example.labuenatierra.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,15 +13,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.NavigableMap;
 
-import org.example.labuenatierra.Models.DatabaseConnection; // Importa tu clase de conexión
+import org.example.labuenatierra.Models.DatabaseConnection;
 
+// Clase encargada de la funcionalidad de la vista Administrador
 public class AdministradorController {
 
+    // Declaración de variables usadas en la vista
     public Button logoutButton;
 
     public Button planFinancieroBtn;
+
     @FXML
     private VBox mainContent;
 
@@ -41,8 +41,10 @@ public class AdministradorController {
 
     @FXML
     private Button proveedoresBtn;
+
     @FXML
     private Button listarEmpleadosBtn;
+
     @FXML
     private VBox addEmployeeForm;
 
@@ -64,6 +66,7 @@ public class AdministradorController {
     @FXML
     private TextField puestoField;
 
+    // Método que inicializa la clase Administrador
     @FXML
     private void initialize() {
         // Configurar acciones para los botones
@@ -76,6 +79,7 @@ public class AdministradorController {
         showInicio();
     }
 
+    // Método que gestiona el boton del plan financiero con los datos de la base de datos
     @FXML
     private void handlePlanFinanciero() {
         // Limpiar contenido previo
@@ -100,7 +104,7 @@ public class AdministradorController {
             finanzasContainer.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
             while (finanzasResultSet.next()) {
-                int finanzaId = finanzasResultSet.getInt("id_finanza"); // Suponiendo que el ID es "id_finanza"
+                int finanzaId = finanzasResultSet.getInt("id_finanza");
                 String tipo = finanzasResultSet.getString("tipo");
                 double monto = finanzasResultSet.getDouble("monto");
                 String fecha = finanzasResultSet.getDate("fecha").toString();
@@ -342,11 +346,6 @@ public class AdministradorController {
         }
     }
 
-// Similarmente, se puede implementar el método "editMarketing" y "saveMarketingChanges"
-// para la edición de las entradas de marketing.
-
-
-
     // Método para mostrar información de clientes
     private void showClientes() {
         mainContent.getChildren().clear(); // Limpiar contenido actual
@@ -365,7 +364,7 @@ public class AdministradorController {
 
             // Iterar sobre los resultados y crear un bloque visual para cada cliente
             while (rs.next()) {
-                int clienteId = rs.getInt("id_cliente"); // Suponiendo que el ID del cliente es "id_cliente"
+                int clienteId = rs.getInt("id_cliente");
                 String nombre = rs.getString("nombre");
                 String telefono = rs.getString("telefono");
                 String email = rs.getString("email");
@@ -537,7 +536,7 @@ public class AdministradorController {
             productosContainer.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
             while (rs.next()) {
-                int productoId = rs.getInt("id_producto"); // Suponiendo que el ID del producto es "id_producto"
+                int productoId = rs.getInt("id_producto");
                 String nombre = rs.getString("nombre");
                 double precio = rs.getDouble("precio");
                 String imagen = rs.getString("imagen");
@@ -708,7 +707,7 @@ public class AdministradorController {
                 // Botón de edición
                 Button editButton = new Button("Editar");
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                int proveedorId = rs.getInt("id_proveedor"); // Suponiendo que tienes un campo 'id' para identificar al proveedor
+                int proveedorId = rs.getInt("id_proveedor");
 
                 // Acción del botón "Editar"
                 editButton.setOnAction(_ -> editProveedor(proveedorId));
@@ -848,7 +847,7 @@ public class AdministradorController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/LoginView.fxml", stage);
 
-        stage.setTitle("Login"); // Opcional: establecer el título de la ventana
+        stage.setTitle("Login");
         stage.show();
 
         // Limpiar la sesión actual
@@ -856,14 +855,13 @@ public class AdministradorController {
     }
 
     @FXML
-    private void redirectShop() throws IOException {
+    private void redirectShop() {
 
 
         // Obtener el Stage desde el evento de clic en lugar del label
         Stage stage = (Stage) buttonShop.getScene().getWindow();
         NavigationUtil.cambiarVistaCliente("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
 
-        // Al cambiar a AdministradorView.fxml
         stage.setTitle("AdministradorView");
 
         // Ajustar el tamaño de la ventana
@@ -910,7 +908,7 @@ public class AdministradorController {
                 // Crear botón para editar el empleado
                 Button editButton = new Button("Editar");
                 editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                editButton.setOnAction(_ -> editEmpleado(idEmpleado)); // Llamar al método editEmpleado
+                editButton.setOnAction(_ -> editEmpleado(idEmpleado));
 
                 // Contenedor horizontal para el empleado y el botón de editar
                 HBox empleadoItem = new HBox(10, empleadoData, editButton);

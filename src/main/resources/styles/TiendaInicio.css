@@ -101,26 +101,26 @@
 
 /* Lista desplegable del ChoiceBox */
 .choice-box .menu-item {
-    -fx-background-color: #1a1a1a;  /* Fondo negro para la lista desplegable */
-    -fx-text-fill: white;            /* Texto blanco */
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: white;
 }
 
 /* Hover sobre los elementos de la lista */
 .choice-box .menu-item:hover {
-    -fx-background-color: #f89c56;  /* Fondo naranja al hacer hover */
+    -fx-background-color: #f89c56;
     -fx-text-fill: white;
 }
 
 /* Cuando se selecciona un elemento */
 .choice-box .menu-item:selected {
-    -fx-background-color: #f89c56;  /* Fondo naranja cuando se selecciona */
+    -fx-background-color: #f89c56;
     -fx-text-fill: white;
 }
 
 /* Eliminar la flecha del dropdown */
 .choice-box .arrow {
     -fx-background-color: transparent;
-    -fx-shape: null;  /* Eliminar la forma de la flecha */
+    -fx-shape: null;
 }
 
 .product-label {
@@ -130,16 +130,16 @@
     -fx-pref-width: 100px; /* Ajusta el ancho preferido según sea necesario */
 }
 .labelLaBuenaTierra {
-    -fx-text-fill: white; /* Color del texto */
-    -fx-font-size: 28px; /* Tamaño de la fuente */
-    -fx-font-weight: bold; /* Grosor de la fuente */
-    -fx-font-family: 'Arial'; /* Fuente utilizada */
-    -fx-padding: 10; /* Espaciado interno */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 1); /* Sombra sutil */
-    -fx-cursor: hand; /* Cambiar el cursor al pasar sobre el texto */
+    -fx-text-fill: white;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 1);
+    -fx-cursor: hand;
 }
 
 /* Efecto hover para el Label */
 .labelLaBuenaTierra:hover {
-    -fx-text-fill: #f1c69c; /* Color de texto al pasar el ratón */
+    -fx-text-fill: #f1c69c;
 }

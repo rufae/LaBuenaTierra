@@ -72,7 +72,7 @@ public class ProductoController {
         if (productoSeleccionado != null && cantidad > 0) {
             carrito.agregarProducto(productoSeleccionado, cantidad);
             System.out.println(cantidad + " " + productoSeleccionado.getNombre() + " han sido añadidos al carrito.");
-            carrito.mostrarCarrito(); // Mostrar el contenido del carrito (puedes quitarlo si no lo necesitas)
+            carrito.mostrarCarrito(); // Mostrar el contenido del carrito
 
             // Redirigir a la vista TiendaInicioView.fxml después de añadir el producto
             irATiendaInicio();

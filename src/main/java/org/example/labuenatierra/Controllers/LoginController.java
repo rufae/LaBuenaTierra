@@ -66,7 +66,7 @@ public class LoginController {
             if (password == null || password.trim().isEmpty()) {
                 errorMessage.setText("Por favor ingrese una contraseña.");
                 errorMessage.setVisible(true);
-            } else if (!password.equals("123")) { // Cambia por la validación real
+            } else if (!password.equals("123")) {
                 errorMessage.setText("Contraseña incorrecta.");
                 errorMessage.setVisible(true);
             } else {

@@ -1,20 +1,18 @@
 CREATE DATABASE LABUENATIERRA;
 USE LABUENATIERRA;
 
--- Modificación en la tabla Productos: se añade la columna imagen y se cambia categoria a ENUM
 CREATE TABLE Productos (
                            id_producto INT PRIMARY KEY AUTO_INCREMENT,
                            nombre VARCHAR(100) NOT NULL,
                            descripcion TEXT,
                            precio DECIMAL(10, 2) NOT NULL,
                            stock INT NOT NULL,
-                           imagen VARCHAR(255), -- Nueva columna para almacenar la imagen
+                           imagen VARCHAR(255),
                            categoria ENUM('Bollería Artesanal', 'Productos de Navidad', 'Fritos', 'Tortas Artesanas') NOT NULL, -- Modificación: categoria ahora es ENUM
                            fecha_creacion DATE,
                            calidad VARCHAR(50)
 );
 
--- Tabla Proveedores permanece igual
 CREATE TABLE Proveedores (
                              id_proveedor INT PRIMARY KEY AUTO_INCREMENT,
                              nombre VARCHAR(100) NOT NULL,
@@ -25,7 +23,6 @@ CREATE TABLE Proveedores (
                              calidad_producto VARCHAR(50)
 );
 
--- Modificación en la tabla Clientes: se añade la columna contraseña
 CREATE TABLE Clientes (
                           id_cliente INT PRIMARY KEY AUTO_INCREMENT,
                           nombre VARCHAR(100) NOT NULL,
@@ -34,10 +31,9 @@ CREATE TABLE Clientes (
                           direccion VARCHAR(255),
                           programa_fidelizacion BOOLEAN DEFAULT FALSE,
                           comentarios TEXT,
-                          contraseña VARCHAR(255) -- Nueva columna para almacenar la contraseña
+                          contraseña VARCHAR(255)
 );
 
--- Tabla Pedidos permanece igual
 CREATE TABLE Pedidos (
                          id_pedido INT PRIMARY KEY AUTO_INCREMENT,
                          id_cliente INT,
@@ -47,29 +43,23 @@ CREATE TABLE Pedidos (
                          FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
 );
 
--- Eliminada la tabla DetallesPedidos
--- CREATE TABLE DetallesPedidos ha sido eliminada según indicaciones
-
--- Tabla Inventario permanece igual
 CREATE TABLE Inventario (
                             id_movimiento INT PRIMARY KEY AUTO_INCREMENT,
                             id_producto INT,
                             cantidad INT,
-                            tipo_movimiento VARCHAR(50), -- "entrada" o "salida"
+                            tipo_movimiento VARCHAR(50),
                             fecha_movimiento DATE,
                             FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
 );
 
--- Tabla Finanzas permanece igual
 CREATE TABLE Finanzas (
                           id_finanza INT PRIMARY KEY AUTO_INCREMENT,
-                          tipo VARCHAR(50), -- "venta" o "inversion"
+                          tipo VARCHAR(50),
                           monto DECIMAL(15, 2),
                           fecha DATE,
                           descripcion TEXT
 );
 
--- Tabla Marketing permanece igual
 CREATE TABLE Marketing (
                            id_campaña INT PRIMARY KEY AUTO_INCREMENT,
                            nombre_campaña VARCHAR(100),
@@ -79,7 +69,6 @@ CREATE TABLE Marketing (
                            colaborador VARCHAR(100)
 );
 
--- Nueva tabla Empleados
 CREATE TABLE Empleados (
                            id_empleado INT PRIMARY KEY AUTO_INCREMENT,
                            nombre_apellidos VARCHAR(255) NOT NULL,
@@ -87,7 +76,7 @@ CREATE TABLE Empleados (
                            telefono VARCHAR(15),
                            direccion VARCHAR(255),
                            salario DECIMAL(10, 2),
-                           puesto_trabajo VARCHAR(100) -- Columna para el puesto de trabajo
+                           puesto_trabajo VARCHAR(100)
 );
 
 INSERT INTO Productos (nombre, descripcion, precio, stock, imagen, categoria, fecha_creacion, calidad) VALUES

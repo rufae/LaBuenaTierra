@@ -35,7 +35,7 @@ public class CompraController {
     private Label totalLabel; // Label para mostrar el total de la compra
 
     // Instancia del carrito
-    private static Carrito carrito = Carrito.getInstance(); // Asegúrate de que esta instancia sea la misma que en ProductoController
+    private static Carrito carrito = Carrito.getInstance();
 
     @FXML
     private void initialize() {
@@ -54,7 +54,6 @@ public class CompraController {
         Stage stage = (Stage) labelLaBuenaTierra.getScene().getWindow();
         NavigationUtil.cambiarVistaAdmin("/org/example/labuenatierra/Views/TiendaInicioView.fxml", stage);
 
-        // Al cambiar a AdministradorView.fxml
         stage.setTitle("TiendaInicioView");
     }
 
@@ -80,11 +79,10 @@ public class CompraController {
             ImageView productoImage = new ImageView();
             productoImage.setFitHeight(100);
             productoImage.setFitWidth(100);
-            String imagenPath = "/images/" + producto.getImagen(); // Asumiendo que el nombre de la imagen está en la base de datos
+            String imagenPath = "/images/" + producto.getImagen();
             try {
                 productoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagenPath))));
             } catch (IllegalArgumentException e) {
-                // Si la imagen no se encuentra, puedes usar una imagen predeterminada
                 productoImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/error.png"))));
                 System.err.println("Error cargando la imagen del producto: " + imagenPath);
             }
@@ -109,7 +107,7 @@ public class CompraController {
             disminuirButton.getStyleClass().add("boton-cantidad"); // Añadir estilo
             disminuirButton.setOnAction(event -> {
                 if (cantidad > 1) {
-                    carrito.disminuirCantidad(producto); // Implementa este método en tu clase Carrito
+                    carrito.disminuirCantidad(producto);
                     mostrarProductosEnCarrito(); // Refrescar la vista
                 } else {
                     carrito.eliminarProducto(producto); // Método para eliminar el producto del carrito
@@ -119,13 +117,13 @@ public class CompraController {
 
             // Label para mostrar la cantidad actual
             Label cantidadLabel = new Label(String.valueOf(cantidad));
-            cantidadLabel.getStyleClass().add("label-cantidad"); // Asegúrate de que esta línea esté presente
+            cantidadLabel.getStyleClass().add("label-cantidad");
 
             // Botón para aumentar la cantidad
             Button aumentarButton = new Button("+");
             aumentarButton.getStyleClass().add("boton-cantidad"); // Añadir estilo
             aumentarButton.setOnAction(event -> {
-                carrito.aumentarCantidad(producto); // Implementa este método en tu clase Carrito
+                carrito.aumentarCantidad(producto);
                 mostrarProductosEnCarrito(); // Refrescar la vista
             });
 
@@ -163,11 +161,11 @@ public class CompraController {
     }
 
     private void finalizarCompra() {
-        // Obtener el ID del cliente (esto puede depender de cómo gestiones la sesión del usuario)
-        int idCliente = LoginController.getIdCliente(); // Cambia esto por el ID real del cliente
+        // Obtener el ID del cliente
+        int idCliente = LoginController.getIdCliente();
 
         // Obtener el total de la compra
-        double total = carrito.getTotal(); // Suponiendo que tienes un método para obtener el total
+        double total = carrito.getTotal();
 
         // Registrar el pedido en la base de datos
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -179,7 +177,7 @@ public class CompraController {
                 System.out.println("Pedido registrado exitosamente.");
 
                 // Limpiar el carrito después de registrar el pedido
-                carrito.limpiarCarrito(); // Asegúrate de tener este método en tu clase Carrito
+                carrito.limpiarCarrito();
                 mostrarProductosEnCarrito(); // Actualizar la interfaz para mostrar que el carrito está vacío
 
                 // Actualizar el estado del botón después de la compra

@@ -61,12 +61,12 @@
 }
 
 #newUserLink {
-    -fx-font-size: 16px; /* Cambia el tamaño de la letra */
-    -fx-text-fill: #000000; /* Cambia el color de la letra */
-    -fx-cursor: hand; /* Cambia el cursor al pasar sobre el enlace */
-    -fx-underline: false; /* Subraya el texto */
+    -fx-font-size: 16px;
+    -fx-text-fill: #000000;
+    -fx-cursor: hand;
+    -fx-underline: false;
 }
 
 #newUserLink:hover {
-    -fx-text-fill: #1abc9c; /* Cambia el color al pasar el cursor */
+    -fx-text-fill: #1abc9c;
 }
